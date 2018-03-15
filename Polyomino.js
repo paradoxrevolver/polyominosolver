@@ -57,7 +57,7 @@ function Polyomino( initVecs ) {
   }
 
   /*
-    flipY() takes no parameters and simply flips the polyomino over the x axis.
+    flipY() takes no parameters and simply flips the polyomino over the y axis.
   */
   this.flipY = function() {
     squares.forEach( function(vector) { vector.transform( -1, 0, 0, 1 ) } );
