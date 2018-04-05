@@ -1,0 +1,29 @@
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+#polyomino-constructor-buttons {
+  float: right;
+  margin: 10px 20px;
+}
+
+#polyomino-constructor {
+  margin: 0 auto;
+}
+
+.demo-card-square.mdl-card {
+  width: 300px;
+  height: 300px;
+}
+
+button#polyomino-constructor-clear {
+  margin-right: 10px;
+}
+
+.mdl-layout--fixed-tabs .mdl-layout__tab {
+  letter-spacing: 1px;
+}
+
+.material-icons {
+  line-height: 2;
+}
