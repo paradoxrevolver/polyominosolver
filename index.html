@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="../polyominosolver/index.css">
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
   </head>
   <body>
@@ -14,7 +14,7 @@
     <header class="mdl-layout__header">
       <div class="mdl-layout__header-row">
         <!-- Title -->
-        <span class="mdl-layout-title">PolyominoSolver</span>
+        <span class="mdl-layout-title">untitled.poly</span>
       </div>
       <!-- Tabs -->
       <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
@@ -23,18 +23,27 @@
       </div>
     </header>
     <div class="mdl-layout__drawer">
+      <!-- Hamburger menu title -->
       <span class="mdl-layout-title">PolyominoSolver</span>
+      <hr>
+      <button class="mdl-button">Local Save</button>
+      <button class="mdl-button">Local Load</button>
+      <button class="mdl-button">Help</button>
+      <button class="mdl-button">About</button>
     </div>
     <main class="mdl-layout__content">
       <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
-        <!-- CODE FOR THE POLYOMINO TAB STARTS HERE -->
+        <!-- ################## CODE FOR THE POLYOMINO TAB STARTS HERE -->
         <div class="page-content">
+
 
           <!-- The holder for the Polyomino constructor itself -->
           <div id="polyomino-constructor">
             <div class="demo-card-square mdl-card mdl-shadow--2dp">
-              <div class="mdl-card__actions mdl-card--expand">
-              </div>
+              <!-- Start svg for grid here -->
+              <svg width="500" height="500">
+                
+              </svg>
             </div>
           </div>
 
@@ -43,28 +52,60 @@
             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" id="polyomino-constructor-clear">
               Clear
             </button>
-            <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" id="polyomino-constructor-save">
-              <i class="material-icons">add</i>
+            <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--disabled" id="polyomino-constructor-save">
+              <i class="material-icons">save</i>
             </button>
           </div>
-
-
 
 
         </div>
       </section>
       <section class="mdl-layout__tab-panel" id="fixed-tab-2">
-        <!-- CODE FOR THE FIELD TAB STARTS HERE -->
+        <!-- ################## CODE FOR THE FIELD TAB STARTS HERE -->
         <div class="page-content">
 
 
+          <!-- The holder for the Polyomino constructor itself -->
+          <div id="polyomino-constructor">
+            <div class="demo-card-square mdl-card mdl-shadow--2dp">
+              <!-- Start svg for grid here -->
+            </div>
+          </div>
+
+          <!-- Buttons for the Polyomino constructor -->
+          <div id="polyomino-constructor-buttons">
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" id="polyomino-field-solve">
+              Clear
+            </button>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="polyomino-field-stop">
+              Solve
+            </button>
+            <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--disabled" id="polyomino-constructor-save">
+              <i class="material-icons">clear</i>
+            </button>
+          </div>
 
 
 
+        </div>
+      </section>
+      <section id="under-block">
+        <!-- ################## CODE FOR PALETTE AND BANK STARTS HERE -->
+        <div class="page-content">
 
+          <span class="mdl-layout-title">Palette</span>
+          <div id="polyomino-palette">
+            <div class="demo-card-square mdl-card mdl-shadow--2dp">
+              <!-- Start svg for palette here -->
+            </div>
+          </div>
 
-
-
+          <span class="mdl-layout-title">Bank</span>
+          <div id="polyomino-bank">
+            <div class="demo-card-square mdl-card mdl-shadow--2dp">
+              <!-- Start svg for bank here -->
+            </div>
+          </div>
 
         </div>
       </section>
