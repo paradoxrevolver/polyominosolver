@@ -4,20 +4,50 @@ body {
 
 #polyomino-constructor-buttons {
   float: right;
-  margin: 10px 20px;
+  margin: 15px auto;
 }
 
+/*  */
 #polyomino-constructor {
-  margin: 0 auto;
+  width: 500px;
+  margin: auto;
 }
 
-.demo-card-square.mdl-card {
-  width: 300px;
-  height: 300px;
+#save-button, #load-button {
+  float: right;
 }
 
-button#polyomino-constructor-clear {
-  margin-right: 10px;
+.mdl-layout__drawer.is-visible {
+  width: 250px;
+}
+
+/* EVERYTHING WITHIN A PAGE IS CONTAINED IN THIS DIV */
+.page-content {
+  width: 500px;
+  margin: 40px auto 0px auto;
+}
+
+/* DEFAULT SIZES FOR SHADOW BOX CONTAINERS */
+#polyomino-constructor .demo-card-square.mdl-card {
+  width: 500px;
+  height: 500px;
+}
+
+#polyomino-palette .demo-card-square.mdl-card {
+  width: 500px;
+  height: 100px;
+}
+
+#polyomino-bank .demo-card-square.mdl-card {
+  width: 500px;
+  height: 200px;
+}
+
+.mdl-button {
+  margin-left: 10px;
+}
+.mdl-layout__drawer hr {
+  margin: 0 0 1em 0;
 }
 
 .mdl-layout--fixed-tabs .mdl-layout__tab {
