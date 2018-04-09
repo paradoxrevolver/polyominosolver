@@ -24,10 +24,14 @@ body {
 /* EVERYTHING WITHIN A PAGE IS CONTAINED IN THIS DIV */
 .page-content {
   width: 500px;
-  margin: 40px auto 0px auto;
+  margin: 40px auto 40px auto;
 }
 
 /* DEFAULT SIZES FOR SHADOW BOX CONTAINERS */
+.demo-card-square.mdl-card {
+  min-height: 100px;
+}
+
 #polyomino-constructor .demo-card-square.mdl-card {
   width: 500px;
   height: 500px;
@@ -35,25 +39,47 @@ body {
 
 #polyomino-palette .demo-card-square.mdl-card {
   width: 500px;
-  height: 100px;
 }
 
 #polyomino-bank .demo-card-square.mdl-card {
   width: 500px;
-  height: 200px;
+}
+
+#polykeep {
+  /* separate the polykeep section from the grid sections above */
+  margin-top: 70px;
+}
+
+.polykeep-block {
+  /* separate each polykeep block from each other */
+  margin-top: 40px;
+}
+
+.polykeep-block .mdl-layout-title {
+  /* separate the headers from the keeps below them */
+  margin-bottom: 10px;
+  /* font style for the polykeep headers */
+  font-weight: bold;
+  font-size: 14px;
+  color: rgb(200, 200, 200);
+  text-transform: uppercase;
 }
 
 .mdl-button {
+  /* spaces buttons apart from each other */
   margin-left: 10px;
 }
 .mdl-layout__drawer hr {
+  /* adjusts the height of the horizontal line */
   margin: 0 0 1em 0;
 }
 
 .mdl-layout--fixed-tabs .mdl-layout__tab {
+  /* a little spacing on the fixed tab titles */
   letter-spacing: 1px;
 }
 
 .material-icons {
+  /* fixes a centering issue for material icons */
   line-height: 2;
 }
