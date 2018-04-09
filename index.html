@@ -11,26 +11,31 @@
     <!-- Simple header with fixed tabs. -->
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header
               mdl-layout--fixed-tabs">
+    <!-- BLUE HEADER BLOCK -->
     <header class="mdl-layout__header">
       <div class="mdl-layout__header-row">
         <!-- Title -->
-        <span class="mdl-layout-title">untitled.poly</span>
+        <span class="mdl-layout-title" id="filename">untitled.poly</span>
       </div>
-      <!-- Tabs -->
+      <!-- Fixed tabs are specified here -->
       <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
         <a href="#fixed-tab-1" class="mdl-layout__tab is-active">Polyomino</a>
         <a href="#fixed-tab-2" class="mdl-layout__tab">Field</a>
       </div>
     </header>
+
+    <!-- HAMBURGER MENU CONTENT -->
     <div class="mdl-layout__drawer">
       <!-- Hamburger menu title -->
       <span class="mdl-layout-title">PolyominoSolver</span>
       <hr>
       <button class="mdl-button">Local Save</button>
       <button class="mdl-button">Local Load</button>
-      <button class="mdl-button">Help</button>
       <button class="mdl-button">About</button>
+      <button class="mdl-button">Help</button>
     </div>
+
+    <!-- ALL PAGE CONTENT -->
     <main class="mdl-layout__content">
       <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
         <!-- ################## CODE FOR THE POLYOMINO TAB STARTS HERE -->
@@ -42,7 +47,7 @@
             <div class="demo-card-square mdl-card mdl-shadow--2dp">
               <!-- Start svg for grid here -->
               <svg width="500" height="500">
-                
+
               </svg>
             </div>
           </div>
@@ -89,19 +94,19 @@
 
         </div>
       </section>
-      <section id="under-block">
+      <section id="polykeep">
         <!-- ################## CODE FOR PALETTE AND BANK STARTS HERE -->
         <div class="page-content">
 
-          <span class="mdl-layout-title">Palette</span>
-          <div id="polyomino-palette">
+          <div class="polykeep-block" id="polyomino-palette">
+            <span class="mdl-layout-title">Palette</span>
             <div class="demo-card-square mdl-card mdl-shadow--2dp">
               <!-- Start svg for palette here -->
             </div>
           </div>
 
-          <span class="mdl-layout-title">Bank</span>
-          <div id="polyomino-bank">
+          <div class="polykeep-block" id="polyomino-bank">
+            <span class="mdl-layout-title">Bank</span>
             <div class="demo-card-square mdl-card mdl-shadow--2dp">
               <!-- Start svg for bank here -->
             </div>
