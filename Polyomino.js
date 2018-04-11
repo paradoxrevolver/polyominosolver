@@ -2,14 +2,22 @@
   The Polyomino object simply represents a Polyomino.
   It stores a series of 2D Vectors, called Vec2, that are used to specify the location of squares on the Polyomino.
 */
-function Polyomino( initVecs ) {
+console.log("Creating the Polyomino.");
+ps.Polyomino = function( initVecs ) {
 
   // instance variables
   // every time we create a Polyomino, it should be able to store the squares that make it up
   var squares = [];
   var width = 0;
   var height = 0;
-  initializeSize();
+
+  this.init = function() {
+
+  }
+
+  this.addVec = function( vector ) {
+    squares.push( vector );
+  }
 
   /*
     Resetting a Polyomino makes certain that all squares are vectors of non-negative integers,
@@ -62,36 +70,7 @@ function Polyomino( initVecs ) {
   this.flipY = function() {
     squares.forEach( function(vector) { vector.transform( -1, 0, 0, 1 ) } );
   }
-}
 
-
-
-
-/* ################################################################
-  A Vec2 is a 2-dimensional vector, or a vector with only two values: an X and a Y.
-*/
-function Vec2(x, y) {
-  // initial variables
-  this.x = x || 0;
-  this.y = y || 0;
-
-  /*
-    Quickly adds to the values of x and y on this vector.
-  */
-  this.add = function(x,y) {
-    this.x + x;
-    this.y + y;
-  }
-
-  /*
-    Performs a transformation on the vector, based on a pair of linear combinations
-  */
-  this.transform = function(a, b, c, d) {
-    // first we do matrix multiplication
-    var newX = this.x*a + this.y*b;
-    var newY = this.x*c + this.y*d;
-    // then we save the results to the vector
-    this.x = newX;
-    this.y = newY;
-  }
+  // initiatlize
+  init();
 }
