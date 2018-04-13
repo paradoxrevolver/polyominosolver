@@ -49,14 +49,14 @@
     </header>
 
     <!-- HAMBURGER MENU CONTENT -->
-    <div class="mdl-layout__drawer">
+    <div class="mdl-layout__drawer" id="drawer">
       <!-- Hamburger menu title -->
       <span class="mdl-layout-title">PolyominoSolver</span>
       <hr>
-      <button class="mdl-button">Local Save</button>
-      <button class="mdl-button">Local Load</button>
-      <button class="mdl-button">About</button>
-      <button class="mdl-button">Help</button>
+      <button class="mdl-button" id="drawer-local-save">Local Save</button>
+      <button class="mdl-button" id="drawer-local-load">Local Load</button>
+      <button class="mdl-button" id="drawer-about">About</button>
+      <button class="mdl-button" id="drawer-help">Help</button>
     </div>
 
     <!-- ALL PAGE CONTENT -->
@@ -70,8 +70,8 @@
           <div id="polyomino-constructor">
             <div class="demo-card-square mdl-card mdl-shadow--2dp">
               <!-- Start svg for grid here -->
-                <div id="polyomino-constructor-svg">
-                </div>
+              <svg id="polyomino-constructor-svg">
+              </svg>
             </div>
           </div>
 
@@ -97,6 +97,8 @@
           <div id="polyomino-constructor">
             <div class="demo-card-square mdl-card mdl-shadow--2dp">
               <!-- Start svg for grid here -->
+              <svg id="polyomino-field-svg">
+              </svg>
             </div>
           </div>
 
