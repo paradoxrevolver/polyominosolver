@@ -12,11 +12,31 @@ ps.Polyomino = function( initVecs ) {
   var height = 0;
 
   this.init = function() {
-
+    // add all the initial vectors to squares
+    squares = [...initVecs];
   }
 
   this.addVec = function( vector ) {
-    squares.push( vector );
+    squares.push( this.vector );
+  }
+
+  /*
+    @return the index in squares[] of the vector being searched for
+  */
+  this.searchVec = function( vector ) {
+    // for each vector in squares
+    for( let i = 0; i < squares.length; i++ )
+      // if you find the desired vector
+      if( this.vector === squares[i] )
+        // return the index in squares
+        return i;
+    console.log( "A vector was searched for in squares[] but was not found.\nThe vector is being printed:" );
+    console.log( this.vector );
+  }
+
+  this.deleteVec = function( vector ) {
+    // delete
+    squares.delete( this.searchVec( this.vector ) );
   }
 
   /*
