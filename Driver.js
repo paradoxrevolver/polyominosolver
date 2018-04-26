@@ -12,6 +12,10 @@ function Driver() {
   // create a Solver object that performs solving
   let Solver = new ps.Solver();
 
+  // CONSTANTS
+  let DO_TESTS = false;
+
+  // VARIABLES
   // this is the side length of the constructor in pixels
   let constructorSize;
   // this is the side length of the constructor in grid squares
@@ -20,8 +24,9 @@ function Driver() {
 
 
   $(document).ready( function() {
-    init();
+    that.init();
   });
+
   /*
     This function initiatlizes the Driver when the page loads.
   */
@@ -33,13 +38,10 @@ function Driver() {
     this.initButtons();
     // load the grid that shows the Constructor
     this.displayConstructorGrid();
-  }
 
-  // set a button to disabled, accent, or primary styles
-  this.buttonToDisabled = function( $button ) { $button.removeClass("mdl-button--accent mdl-button--primary").addClass("mdl-button--disabled"); }
-  this.buttonToAccent = function( $button ) { $button.removeClass("mdl-button--disabled mdl-button--primary").addClass("mdl-button--accent"); }
-  // this forcefully hides the drawer
-  this.hideDrawer = function() { $(".mdl-layout__drawer").removeClass("is-visible").attr("aria-hidden", "true"); $(".mdl-layout__obfuscator").removeClass("is-visible"); }
+    if(DO_TESTS)
+      this.performTests();
+  }
 
   this.displayConstructorGrid = function() {
     let $constructorGrid = $("#polyomino-constructor-svg")
@@ -54,54 +56,117 @@ function Driver() {
     $constructorGrid.append( gridSquare );
   }
 
+
+  this.performTests = function() {
+    let testPolyomino = new ps.TestPolyomino();
+  }
+
+  /*
+    This function initalizes the function of LITERALLY EVERY BUTTON.
+  */
   this.initButtons = function() {
+      
     // grab references to every button that needs to be listened to
     let $constructorClear = $("#polyomino-constructor-clear");
     let $constructorSave = $("#polyomino-constructor-save");
+      
     let $fieldSolve = $("#polyomino-field-solve");
     let $fieldStop = $("#polyomino-field-stop");
     let $fieldClear = $("#polyomino-field-clear");
+      
+    let $drawer = $(".drawer-button");
     let $drawerSave = $("#drawer-local-save");
     let $drawerLoad = $("#drawer-local-load");
     let $drawerAbout = $("#drawer-about");
     let $drawerHelp = $("#drawer-help");
+      
+      
+      
+    // CONSTRUCTOR BUTTONS ##################################################
 
     // when the Clear button on the Constructor screen is clicked
     $constructorClear.on("click", ()=>{
-      console.log("The Constructor was cleared.");
+      if( !$constructorClear.hasClass("mdl-button--disabled") ) {
+        console.log("The Constructor was cleared.");
+      }
     });
 
     $constructorSave.on("click", ()=>{
-      console.log("The polyomino in the Constructor was saved.");
+      if( !$constructorSave.hasClass("mdl-button--disabled") ) {
+        console.log("The polyomino in the Constructor was saved.");
+      }
     });
 
+      
+      
+    // FIELD BUTTONS ##################################################
+      
     // when the Solve button is pressed
     $fieldSolve.on("click", ()=>{
-      that.buttonToDisabled($fieldSolve);
-      that.buttonToAccent($fieldStop);
-      Solver.solve();
-    });
+      // run if the button isn't disabled
+      if( !$fieldSolve.hasClass("mdl-button--disabled") ) {
+        // changed buttons enabled/disabled
+        that.buttonToDisabled($fieldClear);
+        that.buttonToDisabled($fieldSolve);
+        that.buttonToAccent($fieldStop);
 
+        Solver.solve();
+        Solver.expand();
+      }
+    });
+      
     // when the Stop button is pressed
     $fieldStop.on("click", ()=>{
-      that.buttonToDisabled($fieldStop);
-      that.buttonToAccent($fieldSolve);
-      console.log("SOLVING WAS STOPPED.");
+      // run if the button isn't disabled
+      if( !$fieldStop.hasClass("mdl-button--disabled") ) {
+        // changed buttons enabled/disabled
+        that.buttonToDisabled($fieldStop);
+        that.buttonToPrimary($fieldClear);
+        that.buttonToAccent($fieldSolve);
+
+        console.log("SOLVING WAS STOPPED.");
+      }
     });
 
     // when the Clear button on the Field screen is clicked
     $fieldClear.on("click", ()=> {
-      console.log("The field was cleared.");
+      // run if the button isn't disabled
+      if( !$fieldClear.hasClass("mdl-button--disabled") ) {
+        console.log("The field was cleared.");
+      }
     });
 
+      
+      
+    // DRAWER BUTTONS ##################################################
+      
+    $drawer.on("click", ()=> {
+      that.hideDrawer();
+    });
+      
     $drawerSave.on("click", ()=> {
       console.log("Local save committed.");
-      that.hideDrawer();
     });
 
     $drawerLoad.on("click", ()=> {
       console.log("Local load committed.");
-      that.hideDrawer();
     })
+
+    $drawerAbout.on("click", ()=> {
+      console.log("About opened.");
+    });
+
+    $drawerHelp.on("click", ()=> {
+      console.log("Help opened.");
+    })
+
+
+    // set a button to disabled, accent, or primary styles
+    this.buttonToDisabled = function( $button ) { $button.removeClass("mdl-button--accent mdl-button--primary").addClass("mdl-button--disabled"); }
+    this.buttonToPrimary = function( $button ) { $button.removeClass("mdl-button--disabled mdl-button--accent").addClass("mdl-button--primary"); }
+    this.buttonToAccent = function( $button ) { $button.removeClass("mdl-button--disabled mdl-button--primary").addClass("mdl-button--accent"); }
+    // this forcefully hides the drawer
+    this.hideDrawer = function() { $(".mdl-layout__drawer").removeClass("is-visible").attr("aria-hidden", "true"); $(".mdl-layout__obfuscator").removeClass("is-visible"); }
+
   }
 }

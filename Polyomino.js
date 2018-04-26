@@ -7,21 +7,22 @@ ps.Polyomino = function( initVecs ) {
 
   // instance variables
   // every time we create a Polyomino, it should be able to store the squares that make it up
-  var squares = [];
-  var width = 0;
-  var height = 0;
-
-  this.init = function() {
-    // add all the initial vectors to squares
-    squares = [...initVecs];
-  }
+  this.squares = [];
+  this.width = 0;
+  this.height = 0;
 
   this.addVec = function( vector ) {
     squares.push( this.vector );
+    // increase width to match
+    if( vector.x > this.width )
+      this.width = vector.x;
+    // increase height to match
+    if( vector.y > this.height )
+      this.height = vector.y;
   }
 
   /*
-    @return the index in squares[] of the vector being searched for
+    @return the index in squares[] of the vector being searched for, otherwise returns null
   */
   this.searchVec = function( vector ) {
     // for each vector in squares
@@ -30,12 +31,11 @@ ps.Polyomino = function( initVecs ) {
       if( this.vector === squares[i] )
         // return the index in squares
         return i;
-    console.log( "A vector was searched for in squares[] but was not found.\nThe vector is being printed:" );
-    console.log( this.vector );
+    return null;
   }
 
   this.deleteVec = function( vector ) {
-    // delete
+    // delete the vector at the location found by the search
     squares.delete( this.searchVec( this.vector ) );
   }
 
@@ -90,7 +90,34 @@ ps.Polyomino = function( initVecs ) {
   this.flipY = function() {
     squares.forEach( function(vector) { vector.transform( -1, 0, 0, 1 ) } );
   }
+  
+  /* 
+    toString() converts the Polyomino into a string representation
+  */
+  /*
+  this.toString = function() {
+    let temp = "";
+    for( let y = 0; y < height; y++ )
+     for( let x = 0; x < width; x++ ) {
+       if( this.searchVec( ) )
+       temp += 
+     }
+    return temp;
+  }*/
+
+  this.toVecString = function() {
+    let temp = "";
+    this.squares.forEach( function(vector) {
+      temp += vector.toString() + " ";
+    });
+    return temp;
+  }
+
+  this.init = function( initVecs ) {
+    // set squares to all the initial vectors given
+    this.squares = initVecs;
+  }
 
   // initiatlize
-  init();
+  this.init( initVecs );
 }
