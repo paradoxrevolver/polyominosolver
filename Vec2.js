@@ -10,9 +10,15 @@ ps.Vec2 = function(x, y) {
   /*
     Quickly adds to the values of x and y on this vector.
   */
-  this.add = function(x,y) {
+  this.shift = function(x,y) {
     this.x + x;
     this.y + y;
+  }
+
+  this.equals = function(x,y) {
+    if( this.x == x && this.y == y )
+      return true;
+    return false;
   }
 
   /*
@@ -26,4 +32,6 @@ ps.Vec2 = function(x, y) {
     this.x = newX;
     this.y = newY;
   }
+
+  this.toString = function() { return "<" + x + ", " + y + ">"; }
 }
