@@ -7,6 +7,8 @@
 console.log("Starting the Driver.");
 Driver();
 function Driver() {
+  
+  // "OBJECTS"
   // in case we need to reference Driver
   let that = this;
   // create a Solver object that performs solving
@@ -15,14 +17,7 @@ function Driver() {
   // CONSTANTS
   let DO_TESTS = false;
 
-  // VARIABLES
-  // this is the side length of the constructor in pixels
-  let constructorSize;
-  // this is the side length of the constructor in grid squares
-  // this value can be changed by the user
-  let constructorSquareLength;
-
-
+  // start initialization as soon as the document is ready to go
   $(document).ready( function() {
     that.init();
   });
@@ -31,31 +26,62 @@ function Driver() {
     This function initiatlizes the Driver when the page loads.
   */
   this.init = function() {
-    // initalize all variables
-    this.constructorSize = 500;
+    
+    // VARIABLES (these are tied to the Driver)
+    
+    // the pixel length of the sides of either of the editors
+    this.editorPixelLength = 500;
+    // the pixel length of the sides 
     this.constructorSquareLength = 4;
-    // initalize the functions of every button
+    this.fieldSquareLength = 10;
+    // initialize the functions of every button
     this.initButtons();
-    // load the grid that shows the Constructor
-    this.displayConstructorGrid();
-
-    if(DO_TESTS)
+    // initialize the grid that shows the Constructor
+    this.initGrid( $("#polyomino-constructor-svg"), constructorSquareLength);
+    this.initGrid( $("#polyomino-field-svg"), fieldSquareLength);
+ 
+    // STUFF TO DO ONLY FOR TESTING
+    if(DO_TESTS) {
       this.performTests();
+    }
   }
 
-  this.displayConstructorGrid = function() {
-    let $constructorGrid = $("#polyomino-constructor-svg")
-                            .attr("xmlns", "http://www.w3.org/TR/SVG11/")
-                            .attr("width", "500")
-                            .attr("height", "500");
-    let gridSquareLength = 500 / this.constructorSquareLength + "px";
-    let gridSquare = $("<rect></rect>")
-                      .attr("fill", "#ff0000")
-                      .attr("width", gridSquareLength)
-                      .attr("height", gridSquareLength);
-    $constructorGrid.append( gridSquare );
+  this.initGrid = function(svg, sideLength) {
+    // store a variable from the given svg
+    let $grid = svg
+                .attr("width", that.editorPixelLength )
+                .attr("height", that.editorPixelLength );
+    // get the svg namespace
+    let svgNS = $grid[0].namespaceURI;
+    
+    // this is the size that a grid square should be in pixels
+    let gridSquareLength = that.editorPixelLength/sideLength;
+    let gridSquares = [][];
+    
+    // now we loop an awful lot for every grid square that needs to exist
+    for( let i = 0; i < sideLength; i++ ) {
+      for( let j = 0; j < sideLength; j++ ) {
+        // time to make a grid square. set up the element with the right namespace
+        let $gridSquare = document.createElementNS(svgNS, "rect");
+        // grid squares start out filled in white
+        $gridSquare.setAttribute("fill", "white");
+        // stroke a thin line with light gray
+        $gridSquare.setAttribute("stroke", "#cccccc");
+        $gridSquare.setAttribute("stroke-width", "1");
+        // the size of the square is just a little bit larger so that overlap looks good
+        $gridSquare.setAttribute("width", gridSquareLength+1);
+        $gridSquare.setAttribute("height", gridSquareLength+1);
+        // place properly
+        $gridSquare.setAttribute("x", i*gridSquareLength);
+        $gridSquare.setAttribute("y", j*gridSquareLength);
+        // leave index values (very important for creating Vec2 on click)
+        $gridSquare.setAttribute("i", i);
+        $gridSquare.setAttribute("j", j);
+        // finally, send to the grid
+        $grid.append($gridSquare);
+      }
+    }
   }
-
 
   this.performTests = function() {
     let testPolyomino = new ps.TestPolyomino();
@@ -139,23 +165,28 @@ function Driver() {
       
       
     // DRAWER BUTTONS ##################################################
-      
+    
+    // when any drawer button is clicked
     $drawer.on("click", ()=> {
       that.hideDrawer();
     });
-      
+    
+    // the Local Save button in the drawer
     $drawerSave.on("click", ()=> {
       console.log("Local save committed.");
     });
 
+    // the Local Load button in the drawer
     $drawerLoad.on("click", ()=> {
       console.log("Local load committed.");
     })
 
+    // the About button in the drawer
     $drawerAbout.on("click", ()=> {
       console.log("About opened.");
     });
 
+    // the Help button in the drawer
     $drawerHelp.on("click", ()=> {
       console.log("Help opened.");
     })
