@@ -1,3 +1,4 @@
+/* defaults for the entire page, basically */
 body {
   font-family: "Roboto", sans-serif;
 }
@@ -9,7 +10,7 @@ body {
 
 /*  */
 #polyomino-constructor {
-  width: 500px;
+  width: 550px;
   margin: auto;
 }
 
@@ -22,7 +23,8 @@ body {
 }
 
 /* EVERYTHING WITHIN A PAGE IS CONTAINED IN THIS DIV */
-.page-content {
+.page-content { 
+  clear: both;
   width: 500px;
   margin: 40px auto 40px auto;
 }
@@ -32,9 +34,14 @@ body {
   min-height: 100px;
 }
 
+svg {
+cursor: url(pencil.png) 0 16, pointer;
+}
+
 #polyomino-constructor .demo-card-square.mdl-card {
   width: 500px;
   height: 500px;
+  float: left;
 }
 
 #polyomino-palette .demo-card-square.mdl-card {
@@ -43,6 +50,10 @@ body {
 
 #polyomino-bank .demo-card-square.mdl-card {
   width: 500px;
+}
+
+#polyomino-constructor-inc #polyomino-field-inc {
+  margin-bottom: 5px;
 }
 
 #polykeep {
@@ -82,4 +93,13 @@ body {
 .material-icons {
   /* fixes a centering issue for material icons */
   line-height: 2;
+}
+.ns {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }

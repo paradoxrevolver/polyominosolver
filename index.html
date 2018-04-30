@@ -26,130 +26,169 @@
     <script src="../polyominosolver/Field.js" type="text/javascript"></script>
     <script src="../polyominosolver/Solver.js" type="text/javascript"></script>
 
-    <script src="../polyominosolver/TestPolyomino.js" type="text/javascript"></script>
-
     <script src="../polyominosolver/Driver.js" type="text/javascript"></script>
 
     <!-- CUSTOM CSS -->
     <link rel="stylesheet" href="../polyominosolver/index.css">
   </head>
 
+  
+  
+  
+  
+  
+  
+  
+  
   <body>
     <!-- Simple header with fixed tabs. -->
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header
               mdl-layout--fixed-tabs">
-    <!-- BLUE HEADER BLOCK -->
-    <header class="mdl-layout__header">
-      <div class="mdl-layout__header-row">
-        <!-- Title -->
-        <span class="mdl-layout-title" id="filename">untitled.poly</span>
+      
+      <!-- BLUE HEADER BLOCK -->
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+          <!-- Title -->
+          <span class="mdl-layout-title" id="filename">untitled.poly</span>
+        </div>
+        <!-- Fixed tabs are specified here -->
+        <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+          <a href="#fixed-tab-1" class="mdl-layout__tab is-active">Polyomino</a>
+          <a href="#fixed-tab-2" class="mdl-layout__tab">Field</a>
+        </div>
+      </header>
+
+      
+      
+      <!-- HAMBURGER MENU CONTENT -->
+      <div class="mdl-layout__drawer" id="drawer">
+        <!-- Hamburger menu title -->
+        <span class="mdl-layout-title">PolyominoSolver</span>
+        <hr>
+        <button class="mdl-button drawer-button" id="drawer-local-save">Local Save</button>
+        <button class="mdl-button drawer-button" id="drawer-local-load">Local Load</button>
+        <button class="mdl-button drawer-button" id="drawer-about">About</button>
+        <button class="mdl-button drawer-button" id="drawer-help">Help</button>
       </div>
-      <!-- Fixed tabs are specified here -->
-      <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-        <a href="#fixed-tab-1" class="mdl-layout__tab is-active">Polyomino</a>
-        <a href="#fixed-tab-2" class="mdl-layout__tab">Field</a>
-      </div>
-    </header>
 
-    <!-- HAMBURGER MENU CONTENT -->
-    <div class="mdl-layout__drawer" id="drawer">
-      <!-- Hamburger menu title -->
-      <span class="mdl-layout-title">PolyominoSolver</span>
-      <hr>
-      <button class="mdl-button drawer-button" id="drawer-local-save">Local Save</button>
-      <button class="mdl-button drawer-button" id="drawer-local-load">Local Load</button>
-      <button class="mdl-button drawer-button" id="drawer-about">About</button>
-      <button class="mdl-button drawer-button" id="drawer-help">Help</button>
-    </div>
-
-    <!-- ALL PAGE CONTENT -->
-    <main class="mdl-layout__content">
-      <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
-        <!-- ################## CODE FOR THE POLYOMINO TAB STARTS HERE -->
-        <div class="page-content">
+      
+      
+      <!-- ALL PAGE CONTENT GOES HERE -->
+      <main class="mdl-layout__content">
+        
+        
+        <!-- ############# -->
+        <!-- POLYOMINO TAB -->
+        <!-- ############# -->
+        <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
+          <div class="page-content">
 
 
-          <!-- The holder for the Polyomino constructor itself -->
-          <div id="polyomino-constructor">
-            <div class="demo-card-square mdl-card mdl-shadow--2dp">
-              <!-- Start svg for grid here -->
-              <svg id="polyomino-constructor-svg">
-              </svg>
+            <!-- The holder for the Polyomino constructor itself -->
+            <div id="polyomino-constructor">
+              <div class="demo-card-square mdl-card mdl-shadow--2dp">
+                <!-- Start svg for grid here -->
+                <svg class="ns" id="polyomino-constructor-svg">
+                </svg>
+              </div>
+              
+              <!-- Resizer buttons -->
+              <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="polyomino-constructor-inc">
+                <i class="material-icons">add</i>
+              </button>
+              <br>
+              <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--disabled" id="polyomino-constructor-dec">
+                <i class="material-icons">remove</i>
+              </button>
             </div>
-            <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="polyomino-constructor-inc">
-              <i class="material-icons">add</i>
-            </button>
-            <br>
-            <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="polyomino-constructor-dec">
-              <i class="material-icons">remove</i>
-            </button>
+
+            <!-- Buttons for the Polyomino constructor -->
+            <div id="polyomino-constructor-buttons">
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" id="polyomino-constructor-clear">
+                Clear
+              </button>
+              <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--disabled" id="polyomino-constructor-save">
+                <i class="material-icons">save</i>
+              </button>
+            </div>
+
+
           </div>
+        </section>
+        
+        
+        
+        <!-- ######### -->
+        <!-- FIELD TAB -->
+        <!-- ######### -->
+        <section class="mdl-layout__tab-panel" id="fixed-tab-2">
+          <div class="page-content">
+            <!-- The holder for the field constructor itself -->
+            <div id="polyomino-constructor">
+              <div class="demo-card-square mdl-card mdl-shadow--2dp">
+                <!-- Start svg for grid here -->
+                <svg class="ns" id="polyomino-field-svg">
+                </svg>
+              </div>
+              
+              <!-- Resizer buttons -->
+              <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="polyomino-field-inc">
+                <i class="material-icons">add</i>
+              </button>
+              <br>
+              <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-button--disabled" id="polyomino-field-dec">
+                <i class="material-icons">remove</i>
+              </button>
+            </div>
 
-          <!-- Buttons for the Polyomino constructor -->
-          <div id="polyomino-constructor-buttons">
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" id="polyomino-constructor-clear">
-              Clear
-            </button>
-            <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--disabled" id="polyomino-constructor-save">
-              <i class="material-icons">save</i>
-            </button>
+            <!-- Buttons for the field constructor -->
+            <div id="polyomino-constructor-buttons">
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" id="polyomino-field-flood">
+                Flood
+              </button>
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" id="polyomino-field-clear">
+                Clear
+              </button>
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="polyomino-field-solve">
+                Solve
+              </button>
+              <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--disabled" id="polyomino-field-stop">
+                <i class="material-icons">clear</i>
+              </button>
+            </div>
           </div>
+        </section>
+        
+        
+        
+        <!-- ################ -->
+        <!-- POLYKEEP SECTION -->
+        <!-- ################ -->
+        <section id="polykeep">
+          <div class="page-content">
 
+            <div class="polykeep-block" id="polyomino-palette">
+              <span class="mdl-layout-title">Palette</span>
+              <div class="demo-card-square mdl-card mdl-shadow--2dp">
+                <!-- Start svg for palette here -->
+              </div>
+            </div>
 
+            <div class="polykeep-block" id="polyomino-bank">
+              <span class="mdl-layout-title">Bank</span>
+              <div class="demo-card-square mdl-card mdl-shadow--2dp">
+                <!-- Start svg for bank here -->
+              </div>
+            </div>
+
+          </div>
+        </section>
+        
+        <div id="snackbar" class="mdl-js-snackbar mdl-snackbar">
+          <div class="mdl-snackbar__text"></div>
+          <button class="mdl-snackbar__action" type="button"></button>
         </div>
-      </section>
-      <section class="mdl-layout__tab-panel" id="fixed-tab-2">
-        <!-- ################## CODE FOR THE FIELD TAB STARTS HERE -->
-        <div class="page-content">
-
-
-          <!-- The holder for the Polyomino constructor itself -->
-          <div id="polyomino-constructor">
-            <div class="demo-card-square mdl-card mdl-shadow--2dp">
-              <!-- Start svg for grid here -->
-              <svg id="polyomino-field-svg">
-              </svg>
-            </div>
-          </div>
-
-          <!-- Buttons for the Polyomino constructor -->
-          <div id="polyomino-constructor-buttons">
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" id="polyomino-field-clear">
-              Clear
-            </button>
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="polyomino-field-solve">
-              Solve
-            </button>
-            <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--disabled" id="polyomino-field-stop">
-              <i class="material-icons">clear</i>
-            </button>
-          </div>
-
-
-
-        </div>
-      </section>
-      <section id="polykeep">
-        <!-- ################## CODE FOR PALETTE AND BANK STARTS HERE -->
-        <div class="page-content">
-
-          <div class="polykeep-block" id="polyomino-palette">
-            <span class="mdl-layout-title">Palette</span>
-            <div class="demo-card-square mdl-card mdl-shadow--2dp">
-              <!-- Start svg for palette here -->
-            </div>
-          </div>
-
-          <div class="polykeep-block" id="polyomino-bank">
-            <span class="mdl-layout-title">Bank</span>
-            <div class="demo-card-square mdl-card mdl-shadow--2dp">
-              <!-- Start svg for bank here -->
-            </div>
-          </div>
-
-        </div>
-      </section>
-    </main>
+      </main>
     </div>
   </body>
 </html>
