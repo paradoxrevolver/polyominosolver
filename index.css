@@ -1,29 +1,105 @@
+/* defaults for the entire page, basically */
 body {
   font-family: "Roboto", sans-serif;
 }
 
 #polyomino-constructor-buttons {
   float: right;
-  margin: 10px 20px;
+  margin: 15px auto;
 }
 
+/*  */
 #polyomino-constructor {
-  margin: 0 auto;
+  width: 550px;
+  margin: auto;
 }
 
+#save-button, #load-button {
+  float: right;
+}
+
+.mdl-layout__drawer.is-visible {
+  width: 250px;
+}
+
+/* EVERYTHING WITHIN A PAGE IS CONTAINED IN THIS DIV */
+.page-content { 
+  clear: both;
+  width: 500px;
+  margin: 40px auto 40px auto;
+}
+
+/* DEFAULT SIZES FOR SHADOW BOX CONTAINERS */
 .demo-card-square.mdl-card {
-  width: 300px;
-  height: 300px;
+  min-height: 100px;
 }
 
-button#polyomino-constructor-clear {
-  margin-right: 10px;
+svg {
+cursor: url(pencil.png) 0 16, pointer;
+}
+
+#polyomino-constructor .demo-card-square.mdl-card {
+  width: 500px;
+  height: 500px;
+  float: left;
+}
+
+#polyomino-palette .demo-card-square.mdl-card {
+  width: 500px;
+}
+
+#polyomino-bank .demo-card-square.mdl-card {
+  width: 500px;
+}
+
+#polyomino-constructor-inc #polyomino-field-inc {
+  margin-bottom: 5px;
+}
+
+#polykeep {
+  /* separate the polykeep section from the grid sections above */
+  margin-top: 70px;
+}
+
+.polykeep-block {
+  /* separate each polykeep block from each other */
+  margin-top: 40px;
+}
+
+.polykeep-block .mdl-layout-title {
+  /* separate the headers from the keeps below them */
+  margin-bottom: 10px;
+  /* font style for the polykeep headers */
+  font-weight: bold;
+  font-size: 14px;
+  color: rgb(200, 200, 200);
+  text-transform: uppercase;
+}
+
+.mdl-button {
+  /* spaces buttons apart from each other */
+  margin-left: 10px;
+}
+.mdl-layout__drawer hr {
+  /* adjusts the height of the horizontal line */
+  margin: 0 0 1em 0;
 }
 
 .mdl-layout--fixed-tabs .mdl-layout__tab {
+  /* a little spacing on the fixed tab titles */
   letter-spacing: 1px;
 }
 
 .material-icons {
+  /* fixes a centering issue for material icons */
   line-height: 2;
+}
+.ns {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
