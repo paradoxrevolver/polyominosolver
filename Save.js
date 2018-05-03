@@ -11,7 +11,8 @@ ps.SaveObject = function(aPalette, aBank) {
      * what should be saved in the palette and bank are Polyominoes, which are collections of vec2.
      * and what should be saved in the field is a set of vec2.
      */
-    var obj = {
+    that.obj = {
+        constuctor: [],
         palette: [],
         bank: [],
         field: []
@@ -23,6 +24,7 @@ ps.SaveObject = function(aPalette, aBank) {
      * instead of iterating?
      */
     that.init = function(aPalette, aBank) {
+        // WEAKMAPS DON'T HAVE SIZE
         for (var i = 0; i < aPalette.size; i++) {
             // keep in mind polyominoes are made of vec2
             that.obj.palette.push( /* key : value */ );
