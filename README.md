@@ -17,6 +17,6 @@ Of course, unlike this example, not all fields are rectangular, and not all poly
 
 Trying to complete a fitting problem on pencil and paper is often a task of trial and error. For larger polyominoes and oddly-shaped fields, the ability for a person to find a solution to the problem can get daunting. This program intends to mimic that process extremely quickly, brute forcing solutions with a number of smart shortcuts.
 
-#### Credit to:
+### Credit to:
 
 Ariel Flesler for HashMap.js
