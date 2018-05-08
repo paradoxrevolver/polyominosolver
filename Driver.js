@@ -352,6 +352,7 @@ function Driver() {
     // the Help button in the drawer
     $drawerHelp.on("click", ()=> {
       if(that.SHOW_LOGS) console.log("Help opened.");
+      window.open(https://github.com/paradoxrevolver/polyominosolver);
     })
   }
 
