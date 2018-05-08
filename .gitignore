@@ -7,3 +7,4 @@ node_modules/hashmap/bower.json
 node_modules/hashmap/CHANGELOG.md
 node_modules/hashmap/hashmap.js
 package-lock.json
+.vscode/tasks.json
