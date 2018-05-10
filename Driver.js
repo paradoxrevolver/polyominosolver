@@ -403,10 +403,6 @@ function Driver() {
   $(document).ready( function() {
     that.init();
   });
-}
-
-
-
 
   that.encode = function(s) {
     var out = [];
@@ -442,7 +438,7 @@ function Driver() {
     var event = document.createEvent( 'MouseEvents' );
     event.initMouseEvent( 'click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
     link.dispatchEvent( event );
-  };
+  }
 
   // set a button to a new style
   that.buttonToNormal = function($button) {
