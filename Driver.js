@@ -333,11 +333,12 @@ function Driver() {
 
     // when any drawer button is clicked
     $drawer.on("click", () => {
-      that.hideDrawer();
+      //that.hideDrawer();
     });
 
     // the Local Save button in the drawer
     $drawerSave.on("click", () => {
+      that.save();
       var data = {
         message: "Local save committed."
       };
@@ -367,7 +368,7 @@ function Driver() {
     })
   }
 
-  that.makeJSON() = function() {
+  that.makeJSON = function() {
     return {
       myconst: that.constructor || [],
       mypal: that.palette || [],
@@ -375,6 +376,35 @@ function Driver() {
       myfield: that.field || []
     };
   }
+
+  that.encode = function(s) {
+    var out = [];
+    for ( var i = 0; i < s.length; i++ ) {
+        out[i] = s.charCodeAt(i);
+    }
+    return new Uint8Array( out );
+  }
+
+
+ that.save = function() {
+    var myjson = that.makeJSON();
+    var data = encode( JSON.stringify({
+        myjson
+    }, null, 4) );
+
+    var blob = new Blob( [ data ], {
+        type: 'application/octet-stream'
+    });
+    
+    url = URL.createObjectURL( blob );
+    var link = document.createElement( 'a' );
+    link.setAttribute( 'href', url );
+    link.setAttribute( 'download', 'example.json' );
+    
+    var event = document.createEvent( 'MouseEvents' );
+    event.initMouseEvent( 'click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+    link.dispatchEvent( event );
+  };
 
   // set a button to a new style
   that.buttonToNormal = function($button) {
