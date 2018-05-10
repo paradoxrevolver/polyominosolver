@@ -1,26 +1,29 @@
-/* ################################################################
-  A Vec2 is a 2-dimensional vector, or a vector with only two values: an X and a Y.
+/*
+  A Vec2 is a 2-dimensional vector, a vector with only two values: an X and a Y.
 */
-console.log("Creating the Vec2.");
 ps.Vec2 = function(x, y) {
   
   let that = this;
   
-  // CONSTANTS
-  // number used for hashing Vec2 objects in Polyominoes
-  // this value should never be less than or equal to the max value expected for width or length of a Polyomino or the Field
-  that.POLYOMINO_HASH = 1000;
+  /*
+    Initalization
+  */
+  that.init = function(x, y) {
+    // VARIABLES
+    // a 2D vector just stores its x and y
+    that.x = x || 0;
+    that.y = y || 0;
   
-  // VARIABLES
-  that.x = x || 0;
-  that.y = y || 0;
+    // initalization
+    that.updateHash();
+  }
 
   /*
-    Quickly adds to the values of x and y on this vector.
+    Quickly adds to the values of x and y on this vector
   */
   that.shift = function(x,y) {
-    that.x + x;
-    that.y + y;
+    that.x += x;
+    that.y += y;
     // values were changed, update the hash
     that.updateHash();
   }
@@ -29,7 +32,7 @@ ps.Vec2 = function(x, y) {
     Checks if this Vec2 is equal to another Vec2
   */
   that.equals = function(vector) {
-    if( that.x == vector.x && that.y == vector.y )
+    if( that.x === vector.x && that.y === vector.y )
       return true;
     return false;
   }
@@ -49,17 +52,19 @@ ps.Vec2 = function(x, y) {
   }
   
   /*
-    Generates a hashcode for this Vec2 that is supposedly unique for all Vec2, dependent on the POLYOMINO_HASH constant.
-    The returned hashcode is simply an integer.
-    The reason this function exists is because in order to create hash tables for Polyominoes otherwise, a Vec2 would have to be stringified to get a key every time, which would be more expensive than an arithmetic operation.
+    Generates a hashcode for this Vec2 that is supposedly unique for all Vec2.
+    The returned hashcode is a String with a length of HASH_VECTOR_DIGITS * 2.
+    The reason this function exists is to use a HashMap in Polyominoes.
   */
-  that.updateHash = function() { that.hash = that.x*that.POLYOMINO_HASH + that.y; }
+  that.updateHash = function() { 
+    that.hash = ps.hashVector(that);
+  }
   
   /*
     Converts Vec2 to a String
   */
   that.toString = function() { return "<" + that.x + ", " + that.y + ">"; }
   
-  // initalization
-  that.updateHash();
+  // init
+  that.init(x, y);
 }
