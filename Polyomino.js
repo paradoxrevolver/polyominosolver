@@ -2,57 +2,89 @@
   The Polyomino object simply represents a Polyomino.
   It stores a series of 2D Vectors, called Vec2, that are used to specify the location of squares on the Polyomino.
 */
-console.log("Creating the Polyomino.");
-ps.Polyomino = function( initVecs ) {
+if(ps.flags.SHOW_LOGS) console.log("Creating the Polyomino.");
+ps.Polyomino = function( vecArray ) {
   
   let that = this;
   
-  // VARIABLES
-  // every time we create a Polyomino, it should be able to store the squares that make it up
-  // we use a WeakMap, so that if a Polyomino and a Polyomino are compared, it takes O(n) time to check for overlap instead of O(n^2).
-  that.squares = new WeakMap();
-  // we also need to store the keys anyways, so that if a Polyomino and the Field are compared, we can iterate through the Polyomino's squares.
-  that.keys = [];
-
-  that.add = function( vector ) {
-    that.squares.set( vector.hash, vector );
+  that.init = function( vecArray ) {
+    // VARIABLES
+    // this temporary array will prepare [key, value] pairs that are used to instantiate a HashMap
+    that.pairs = [];
+    // loop through the initially given vector array
+    vecArray.forEach( function(vector) {
+      // push the [key, value] pairs into the array
+      that.pairs.push( [vector.hash, vector] );
+    });
+    // every time we create a Polyomino, it should be able to store the squares that make it up
+    // we use a HashMap, so that if a Polyomino and a Polyomino are compared, it takes O(n) time to check for overlap instead of O(n^2).
+    that.squares = new HashMap(that.pairs);
   }
-
+  
   /*
-    @return the index in squares[] of the vector being searched for, otherwise returns null
+    Returns an object called "max" with an x and y property that are the maximum x and y of the Polyomino
   */
-  that.has = function( vector ) {
-    that.squares.has( vector.hash );
+  that.getMax = function() {
+    let squaresArray = that.squares.values();
+    let maxX = squaresArray[0].x;
+    let maxY = squaresArray[0].y;
+    // traverse all vectors in the array
+    // we want to find the maximum x and y
+    for( var i = 1; i < squaresArray.length; i++ ){
+      // if we find a new, lower X
+      if( squaresArray[i].x > maxX )
+        maxX = squaresArray[i].x;
+      // if we find a new, lower Y
+      if( squaresArray[i].y > maxY )
+        maxY = squaresArray[i].y;
+    }
+    let max = {x: maxX, y: maxY};
+    return max;
   }
-
+  
+  /*
+    Returns an object called "min" with an x and y property that are the minimum x and y of the Polyomino
+  */
+  that.getMin = function() {
+    let squaresArray = that.squares.values();
+    let minX = squaresArray[0].x;
+    let minY = squaresArray[0].y;
+    // traverse all vectors in the array
+    // we want to find the maximum x and y
+    for( var i = 1; i < squaresArray.length; i++ ){
+      // if we find a new, lower X
+      if( squaresArray[i].x < minX )
+        minX = squaresArray[i].x;
+      // if we find a new, lower Y
+      if( squaresArray[i].y < minY )
+        minY = squaresArray[i].y;
+    }
+    let min = {x: minX, y: minY};
+    return min;
+  }
+  
+  /*
+    Sorts the entire HashMap of vectors
+  */
+  that.sort = function() {
+    let squaresArray = that.squares.values();
+    squaresArray.sort( function(a, b) { return a.x !== b.x ? a.x-b.x : (a.y !== b.y ? a.y-b.y : 0 ) } );
+    let array = [];
+    squaresArray.forEach( function(vector) {
+      // push the [key, value] pairs into the array
+      array.push( [vector.hash, vector] );
+    });
+    that.squares = new HashMap(array);
+  }
+  
   /*
     Resetting a Polyomino makes certain that all squares are vectors of non-negative integers,
     and the Polyomino touches the x and y-axis at least once.
   */
   that.reset = function() {
-    // only run if there's at least one square in the Polyomino
-    if( that.squares.length > 0 ) {
-      // by default, store the first vector's values
-      var minX = that.squares[0].x;
-      var minY = that.squares[0].y;
-      // traverse all vectors in the array
-      // we want to find the minimum x and y
-      for( var i = 1; i < squares.length; i++ ){
-        // if we find a new, lower X
-        if( that.squares[i].x < minX )
-          minX = that.squares[i].x;
-        // if we find a new, lower Y
-        if( that.squares[i].y < minY )
-          minY = that.squares[i].y;
-      }
-      // now that we have the lowest values, we can iterate again and shift the entire polyomino
-      for( var i = 0; i < that.squares.length; i++ ) {
-        // move every X by the difference of the minimum X
-        that.squares[i].x -= minX;
-        // move every Y by the difference of the minimum Y
-        that.squares[i].y -= minY;
-      }
-    }
+    let min = that.getMin();
+    // now that we have the lowest values, we can iterate through and shift the entire polyomino
+    squares.forEach( function(key, vector) { vector.shift( -min.x, -min.y ) } );
   }
 
   /*
@@ -80,19 +112,32 @@ ps.Polyomino = function( initVecs ) {
   /*
     
   */
+  that.toString = function() {
+    let temp = "";
+    let max = that.getMax();
+    for( let i = max.y; i >= 0 ; i-- ) {
+      for( let j = 0; j <= max.x; j++ ) {
+        if( that.squares.has( ps.hashCoords( {x: j, y: i} ) ) )
+          temp += "#";
+        else
+          temp += ".";
+      }
+      temp += "\n";
+    }
+    return temp;
+  }
+  
+  /*
+    String of all the vectors in the order the HashMap iterates them
+  */
   that.toVecString = function() {
     let temp = "";
-    that.squares.forEach( function(vector) {
-      temp += vector.toString() + " ";
+    that.squares.forEach( function(key, vector) {
+      temp += vector.toString();
     });
     return temp;
   }
-
-  that.init = function( initVecs ) {
-    // set squares to all the initial vectors given
-    that.squares = initVecs;
-  }
-
-  // initiatlize
-  that.init( initVecs );
+  
+  // init
+  that.init( vecArray );
 }
