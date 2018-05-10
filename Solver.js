@@ -2,13 +2,13 @@
   The Solver is actually responsible for the algorithm that perform automatic polyomino fitting.
   Warning: Not for the faint of heart.
 */
-console.log("Creating the Solver.");
+if(ps.flags.SHOW_LOGS) console.log("Creating the Solver.");
 ps.Solver = function() {
 
   polyexpands = [];
 
   this.solve = function() {
-    console.log("CURRENTLY SOLVING...");
+    if(ps.flags.SHOW_LOGS) console.log("CURRENTLY SOLVING...");
 
   }
 
@@ -27,7 +27,7 @@ ps.Solver = function() {
   }
 
   this.init = function() {
-    console.log("Solver initiatlized.");
+    if(ps.flags.SHOW_LOGS) console.log("Solver initiatlized.");
   }
 
   this.init();
