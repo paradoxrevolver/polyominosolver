@@ -6,6 +6,7 @@
 // start driving
 if(ps.flags.SHOW_LOGS) console.log("Starting the Driver.");
 Driver();
+
 function Driver() {
   
   // in case we need to reference Driver
@@ -32,7 +33,7 @@ function Driver() {
     This function initiatlizes the Driver when the page loads.
   */
   that.init = function() {
-    
+
     // VARIABLES
     // the pixel length of the sides of either of the editors
     that.editorPixelLength = 500;
@@ -43,14 +44,14 @@ function Driver() {
     that.mouseIsDown = false;
     // on mousedown, was the mouse trying to draw?
     that.mouseIsDrawing = true;
-    
+
     // initialize the functions of every button
     that.initButtons();
     // initialize the grid that shows the Constructor
-    that.constructorGrid = that.initGrid( $("#polyomino-constructor-svg"), that.constructorSquareLength);
+    that.constructorGrid = that.initGrid($("#polyomino-constructor-svg"), that.constructorSquareLength);
     // init the grid that shows the Field
-    that.fieldGrid = that.initGrid( $("#polyomino-field-svg"), that.fieldSquareLength);
-    
+    that.fieldGrid = that.initGrid($("#polyomino-field-svg"), that.fieldSquareLength);
+
     // STUFF TO DO ONLY FOR TESTING
     if(ps.flags.DO_TESTS) { that.performTests(); }
   }
@@ -118,21 +119,21 @@ function Driver() {
     $("body").on("mouseup", ()=>{
       that.mouseIsDown = false;
     });
-    
+
     // get the svg namespace
     let svgNS = $grid[0].namespaceURI;
-    
+
     // this is the size that a grid square should be in pixels
     let gridSquareLength = that.editorPixelLength/sideLength;
     
     // keep an array handy for saving references to every square
     let gridSquares = [];
-    
+
     // now we loop an awful lot for every grid square that needs to exist
-    for( let i = 0; i < sideLength; i++ ) {
+    for (let i = 0; i < sideLength; i++) {
       // set up a row for storing a row of squares
       let gridRow = [];
-      for( let j = 0; j < sideLength; j++ ) {
+      for (let j = 0; j < sideLength; j++) {
         // time to make a temporary grid square. set up the element with the right namespace
         let gridSquare = document.createElementNS(svgNS, "rect");
         // grid squares start out filled in white
@@ -141,8 +142,8 @@ function Driver() {
         $(gridSquare).attr("stroke", "#cccccc");
         $(gridSquare).attr("stroke-width", "1");
         // the size of the square is just a little bit larger so that overlap looks good
-        $(gridSquare).attr("width", gridSquareLength+1);
-        $(gridSquare).attr("height", gridSquareLength+1);
+        $(gridSquare).attr("width", gridSquareLength + 1);
+        $(gridSquare).attr("height", gridSquareLength + 1);
         // place properly
         $(gridSquare).attr("x", j*gridSquareLength);
         $(gridSquare).attr("y", (sideLength-i-1)*gridSquareLength);
@@ -155,12 +156,11 @@ function Driver() {
         $(gridSquare).on("mousedown", function() {
           that.mouseIsDown = true;
           // if the user starts mousedown on a NON-ACTIVE square...
-          if( !$(gridSquare).hasClass("is-active") ) {
+          if (!$(gridSquare).hasClass("is-active")) {
             // the user is trying to draw
             that.mouseIsDrawing = true;
             that.activateSquare($(gridSquare));
-          }
-          else {
+          } else {
             // the user is trying to erase
             that.mouseIsDrawing = false;
             that.deactivateSquare($(gridSquare));
@@ -200,33 +200,33 @@ function Driver() {
     This function initalizes the function of LITERALLY EVERY BUTTON.
   */
   that.initButtons = function() {
-      
+
     // grab references to every button or region that needs to be listened to
     let $constructorClear = $("#polyomino-constructor-clear");
     let $constructorSave = $("#polyomino-constructor-save");
-    
+
     let $constructorInc = $("#polyomino-constructor-inc");
     let $constructorDec = $("#polyomino-constructor-dec");
-      
+
     let $fieldFlood = $("#polyomino-field-flood");
     let $fieldSolve = $("#polyomino-field-solve");
     let $fieldStop = $("#polyomino-field-stop");
     let $fieldClear = $("#polyomino-field-clear");
-    
+
     let $fieldInc = $("#polyomino-field-inc");
     let $fieldDec = $("#polyomino-field-dec");
-      
+
     let $drawer = $(".drawer-button");
     let $drawerSave = $("#drawer-local-save");
     let $drawerLoad = $("#drawer-local-load");
     let $drawerAbout = $("#drawer-about");
     let $drawerHelp = $("#drawer-help");
-    
+
     let $snackbar = $("#snackbar");
-    
+
     // CONSTRUCTOR BUTTONS ##################################################
-    
-    
+
+
     // when the Clear button on the Constructor screen is clicked
     $constructorClear.on("click", ()=>{
       if( !$constructorClear.hasClass("mdl-button--disabled") ) {
@@ -249,9 +249,9 @@ function Driver() {
         if(ps.flags.SHOW_LOGS) console.log("The polyomino in the Constructor was saved.");
       }
     });
-    
-    $constructorInc.on("click", ()=>{
-      if( !$constructorInc.hasClass("mdl-button--disabled") ) {
+
+    $constructorInc.on("click", () => {
+      if (!$constructorInc.hasClass("mdl-button--disabled")) {
         that.constructorSquareLength += 1;
         ps.buttonToNormal($constructorDec);
         if( that.constructorSquareLength >= that.CONSTRUCTOR_MAX_LENGTH ) { ps.buttonToDisabled( $constructorInc ) };
@@ -262,8 +262,8 @@ function Driver() {
       }
     });
 
-    $constructorDec.on("click", ()=>{
-      if( !$constructorDec.hasClass("mdl-button--disabled") ) {
+    $constructorDec.on("click", () => {
+      if (!$constructorDec.hasClass("mdl-button--disabled")) {
         that.constructorSquareLength -= 1;
         ps.buttonToNormal($constructorInc);
         if( that.constructorSquareLength <= that.CONSTRUCTOR_MIN_LENGTH ) { ps.buttonToDisabled( $constructorDec ) };
@@ -274,14 +274,14 @@ function Driver() {
       }
     });
 
-      
-      
+
+
     // FIELD BUTTONS ##################################################
-      
+
     // when the Solve button is pressed
-    $fieldSolve.on("click", ()=>{
+    $fieldSolve.on("click", () => {
       // run if the button isn't disabled
-      if( !$fieldSolve.hasClass("mdl-button--disabled") ) {
+      if (!$fieldSolve.hasClass("mdl-button--disabled")) {
         // changed buttons enabled/disabled
         ps.buttonToDisabled($fieldFlood);
         ps.buttonToDisabled($fieldClear);
@@ -292,17 +292,17 @@ function Driver() {
         that.solver.expand();
       }
     });
-      
+
     // when the Stop button is pressed
-    $fieldStop.on("click", ()=>{
+    $fieldStop.on("click", () => {
       // run if the button isn't disabled
-      if( !$fieldStop.hasClass("mdl-button--disabled") ) {
+      if (!$fieldStop.hasClass("mdl-button--disabled")) {
         // changed buttons enabled/disabled
         ps.buttonToDisabled($fieldStop);
         ps.buttonToPrimary($fieldFlood);
         ps.buttonToPrimary($fieldClear);
         ps.buttonToAccent($fieldSolve);
-
+        
         if(ps.flags.SHOW_LOGS) console.log("SOLVING WAS STOPPED.");
       }
     });
@@ -319,9 +319,9 @@ function Driver() {
         if(ps.flags.SHOW_LOGS) console.log("The field was flooded.");
       }
     });
-    
+
     // when the Clear button on the Field screen is clicked
-    $fieldClear.on("click", ()=> {
+    $fieldClear.on("click", () => {
       // run if the button isn't disabled
       if( !$fieldClear.hasClass("mdl-button--disabled") ) {
         for( let i = 0; i < that.fieldSquareLength; i++ ) {
@@ -334,9 +334,9 @@ function Driver() {
         if(ps.flags.SHOW_LOGS) console.log("The field was cleared.");
       }
     });
-    
-    $fieldInc.on("click", ()=>{
-      if( !$fieldInc.hasClass("mdl-button--disabled") ) {
+
+    $fieldInc.on("click", () => {
+      if (!$fieldInc.hasClass("mdl-button--disabled")) {
         that.fieldSquareLength += 1;
         ps.buttonToNormal($fieldDec);
         if( that.fieldSquareLength >= that.FIELD_MAX_LENGTH ) { ps.buttonToDisabled( $fieldInc ) };
@@ -347,8 +347,8 @@ function Driver() {
       }
     });
 
-    $fieldDec.on("click", ()=>{
-      if( !$fieldDec.hasClass("mdl-button--disabled") ) {
+    $fieldDec.on("click", () => {
+      if (!$fieldDec.hasClass("mdl-button--disabled")) {
         that.fieldSquareLength -= 1;
         ps.buttonToNormal($fieldInc);
         if( that.fieldSquareLength <= that.FIELD_MIN_LENGTH ) { ps.buttonToDisabled( $fieldDec ) };
@@ -359,26 +359,31 @@ function Driver() {
       }
     });
 
-      
-      
+
+
     // DRAWER BUTTONS ##################################################
-    
+
     // when any drawer button is clicked
     $drawer.on("click", ()=> {
       ps.hideDrawer();
     });
-    
+
     // the Local Save button in the drawer
-    $drawerSave.on("click", ()=> {
-      var data = {message: "Local save committed."};
+    $drawerSave.on("click", () => {
+      that.save();
+      var data = {
+        message: "Local save committed."
+      };
       $snackbar[0].MaterialSnackbar.showSnackbar(data);
       
       if(ps.flags.SHOW_LOGS) console.log("Local save committed.");
     });
 
     // the Local Load button in the drawer
-    $drawerLoad.on("click", ()=> {
-      var data = {message: "Local load committed."};
+    $drawerLoad.on("click", () => {
+      var data = {
+        message: "Local load committed."
+      };
       $snackbar[0].MaterialSnackbar.showSnackbar(data);
       
       if(ps.flags.SHOW_LOGS) console.log("Local load committed.");
@@ -389,8 +394,6 @@ function Driver() {
       if(ps.flags.SHOW_LOGS) console.log("About opened.");
       window.open("https://github.com/paradoxrevolver/polyominosolver", "_blank");
     });
-    
-    // the Help button in the drawer
     $drawerHelp.on("click", ()=> {
       if(ps.flags.SHOW_LOGS) console.log("Help opened.");
       window.open("https://github.com/paradoxrevolver/polyominosolver", "_blank");
@@ -405,7 +408,59 @@ function Driver() {
 
 
 
+  that.encode = function(s) {
+    var out = [];
+    for ( var i = 0; i < s.length; i++ ) {
+        out[i] = s.charCodeAt(i);
+    }
+    return new Uint8Array( out );
+  }
 
+      // the Help button in the drawer
+    that.makeJSON = function() {
+      return {
+        myconst: that.constructor || [],
+        mypal: that.palette || [],
+        mybank: that.bank || [],
+        myfield: that.field || []
+      };
+    }
 
+ that.save = function() {
+    var myjson = that.makeJSON();
+    var data = encode(JSON.stringify(myjson, null, 4) );
 
+    var blob = new Blob( [ data ], {
+        type: 'application/octet-stream'
+    });
+    
+    url = URL.createObjectURL( blob );
+    var link = document.createElement( 'a' );
+    link.setAttribute( 'href', url );
+    link.setAttribute( 'download', 'myfile.poly' );
+    
+    var event = document.createEvent( 'MouseEvents' );
+    event.initMouseEvent( 'click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+    link.dispatchEvent( event );
+  };
 
+  // set a button to a new style
+  that.buttonToNormal = function($button) {
+    $button.removeClass("mdl-button--disabled");
+  }
+  that.buttonToDisabled = function($button) {
+    $button.removeClass("mdl-button--accent mdl-button--primary").addClass("mdl-button--disabled");
+  }
+  that.buttonToPrimary = function($button) {
+    $button.removeClass("mdl-button--disabled mdl-button--accent").addClass("mdl-button--primary");
+  }
+  that.buttonToAccent = function($button) {
+    $button.removeClass("mdl-button--disabled mdl-button--primary").addClass("mdl-button--accent");
+  }
+  // this forcefully hides the drawer
+  that.hideDrawer = function() {
+    $(".mdl-layout__drawer").removeClass("is-visible").attr("aria-hidden", "true");
+    $(".mdl-layout__obfuscator").removeClass("is-visible");
+  }
+
+}
