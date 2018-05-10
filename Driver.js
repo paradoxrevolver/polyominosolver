@@ -387,11 +387,13 @@ function Driver() {
     // the About button in the drawer
     $drawerAbout.on("click", ()=> {
       if(ps.flags.SHOW_LOGS) console.log("About opened.");
+      window.open("https://github.com/paradoxrevolver/polyominosolver", "_blank");
     });
     
     // the Help button in the drawer
     $drawerHelp.on("click", ()=> {
       if(ps.flags.SHOW_LOGS) console.log("Help opened.");
+      window.open("https://github.com/paradoxrevolver/polyominosolver", "_blank");
     })
   }
   // start initialization as soon as the document is ready to go
