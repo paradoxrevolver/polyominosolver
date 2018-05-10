@@ -347,12 +347,13 @@ function Driver() {
     // the About button in the drawer
     $drawerAbout.on("click", ()=> {
       if(that.SHOW_LOGS) console.log("About opened.");
+      window.open("https://github.com/paradoxrevolver/polyominosolver", "_blank");
     });
     
     // the Help button in the drawer
     $drawerHelp.on("click", ()=> {
       if(that.SHOW_LOGS) console.log("Help opened.");
-      window.open(https://github.com/paradoxrevolver/polyominosolver);
+      window.open("https://github.com/paradoxrevolver/polyominosolver", "_blank");
     })
   }
 
