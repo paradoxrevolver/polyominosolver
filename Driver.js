@@ -5,6 +5,7 @@
 */
 // start driving
 console.log("Starting the Driver.");
+console.log(ps);
 Driver();
 
 function Driver() {
@@ -19,6 +20,7 @@ function Driver() {
     that.bank = new ps.Bank();
     that.field = new ps.Field();
     that.solver = new ps.Solver();
+    that.unredo = new ps.Unredo();
 
     // CONSTANTS
     // debug booleans
