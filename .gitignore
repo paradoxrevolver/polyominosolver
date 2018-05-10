@@ -9,3 +9,5 @@ node_modules/hashmap/hashmap.js
 package-lock.json
 .vscode/tasks.json
 Stevestest.js
+.jsbeautifyrc
+.vscode/settings.json
