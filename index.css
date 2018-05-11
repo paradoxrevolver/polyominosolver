@@ -1,4 +1,5 @@
 /* defaults for the entire page, basically */
+
 body {
   font-family: "Roboto", sans-serif;
 }
@@ -9,12 +10,14 @@ body {
 }
 
 /*  */
+
 #polyomino-constructor {
   width: 550px;
   margin: auto;
 }
 
-#save-button, #load-button {
+#save-button,
+#load-button {
   float: right;
 }
 
@@ -23,19 +26,21 @@ body {
 }
 
 /* EVERYTHING WITHIN A PAGE IS CONTAINED IN THIS DIV */
-.page-content { 
+
+.page-content {
   clear: both;
   width: 500px;
   margin: 40px auto 40px auto;
 }
 
 /* DEFAULT SIZES FOR SHADOW BOX CONTAINERS */
+
 .demo-card-square.mdl-card {
   min-height: 100px;
 }
 
 svg {
-cursor: url(pencil.png) 0 16, pointer;
+  cursor: url(pencil.png) 0 16, pointer;
 }
 
 #polyomino-constructor .demo-card-square.mdl-card {
@@ -80,6 +85,7 @@ cursor: url(pencil.png) 0 16, pointer;
   /* spaces buttons apart from each other */
   margin-left: 10px;
 }
+
 .mdl-layout__drawer hr {
   /* adjusts the height of the horizontal line */
   margin: 0 0 1em 0;
@@ -94,12 +100,19 @@ cursor: url(pencil.png) 0 16, pointer;
   /* fixes a centering issue for material icons */
   line-height: 2;
 }
+
 .ns {
-  -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 }
