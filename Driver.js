@@ -403,7 +403,6 @@ function Driver() {
   $(document).ready( function() {
     that.init();
   });
-}
 
 
 
