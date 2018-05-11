@@ -63,5 +63,12 @@ ps.hideDrawer = function () {
   $(".mdl-layout__obfuscator").removeClass("is-visible");
 }
 
+ps.showSnackbar = function (message) {
+  let data = {
+    message: message
+  };
+  $("#snackbar")[0].MaterialSnackbar.showSnackbar(data);
+}
+
 
 if (ps.flags.SHOW_LOGS) console.log("Setup is complete.");

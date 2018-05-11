@@ -29,6 +29,11 @@ function Driver() {
   that.field = new ps.Field();
   that.solver = new ps.Solver();
 
+  // start initialization as soon as the document is ready to go
+  $(document).ready(function () {
+    that.init();
+  });
+  
   /*
     This function initiatlizes the Driver when the page loads.
   */
@@ -59,7 +64,7 @@ function Driver() {
   }
 
   /* 
-    This function runs only for debugging purposes, and facilitates testing
+    This function runs only for debugging purposes.
   */
   that.performTests = function () {
     console.log("########## NOW PERFORMING TESTS ##########");
@@ -197,7 +202,7 @@ function Driver() {
   }
 
   /*
-    This function initalizes the function of LITERALLY EVERY BUTTON.
+    This function initalizes the function of every button in the program.
   */
   that.initButtons = function () {
 
@@ -221,8 +226,6 @@ function Driver() {
     let $drawerLoad = $("#drawer-local-load");
     let $drawerAbout = $("#drawer-about");
     let $drawerHelp = $("#drawer-help");
-
-    let $snackbar = $("#snackbar");
 
     // CONSTRUCTOR BUTTONS ##################################################
 
@@ -379,20 +382,14 @@ function Driver() {
     // the Local Save button in the drawer
     $drawerSave.on("click", () => {
       that.save();
-      var data = {
-        message: "Local save committed."
-      };
-      $snackbar[0].MaterialSnackbar.showSnackbar(data);
+      ps.showSnackbar("Local save committed.");
 
       if (ps.flags.SHOW_LOGS) console.log("Local save committed.");
     });
 
     // the Local Load button in the drawer
     $drawerLoad.on("click", () => {
-      var data = {
-        message: "Local load committed."
-      };
-      $snackbar[0].MaterialSnackbar.showSnackbar(data);
+      ps.showSnackbar("Local load committed.");
 
       if (ps.flags.SHOW_LOGS) console.log("Local load committed.");
     })
@@ -402,19 +399,16 @@ function Driver() {
       if (ps.flags.SHOW_LOGS) console.log("About opened.");
       window.open("https://github.com/paradoxrevolver/polyominosolver", "_blank");
     });
+    
     $drawerHelp.on("click", () => {
       if (ps.flags.SHOW_LOGS) console.log("Help opened.");
       window.open("https://github.com/paradoxrevolver/polyominosolver", "_blank");
     })
   }
-  // start initialization as soon as the document is ready to go
-  $(document).ready(function () {
-    that.init();
-  });
 
-
-
-
+  /*
+    
+  */
   that.encode = function (s) {
     var out = [];
     for (var i = 0; i < s.length; i++) {
@@ -423,7 +417,9 @@ function Driver() {
     return new Uint8Array(out);
   }
 
-  // the Help button in the drawer
+  /*
+    Returns an object used for turning into a JSON object to save.
+  */
   that.makeJSON = function () {
     return {
       myconst: that.constructor || [],
@@ -432,7 +428,10 @@ function Driver() {
       myfield: that.field || []
     };
   }
-
+  
+  /*
+    Performs a local save of all the vital data current in PolyominoSolver
+  */
   that.save = function () {
     var myjson = that.makeJSON();
     var data = encode(JSON.stringify(myjson, null, 4));
@@ -450,11 +449,4 @@ function Driver() {
     event.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
     link.dispatchEvent(event);
   };
-
-  // this forcefully hides the drawer
-  that.hideDrawer = function () {
-    $(".mdl-layout__drawer").removeClass("is-visible").attr("aria-hidden", "true");
-    $(".mdl-layout__obfuscator").removeClass("is-visible");
-  }
-
 }

@@ -1,5 +1,5 @@
 /*
-  The banks stores 
+  The Bank
 */
 if(ps.flags.SHOW_LOGS) console.log("Creating the Bank.");
 ps.Bank = function() {
