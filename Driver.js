@@ -102,7 +102,7 @@ function Driver() {
     $element.addClass("is-active");
     $element.attr("fill", "#3f51b5");
     if ($element.attr("svgname") === "polyomino-constructor-svg") {
-      that.constructor.add($element.attr("j"), $element.attr("i"));
+      that.constructor.add( parseInt($element.attr("j")), parseInt($element.attr("i")));
     }
   };
 
@@ -248,7 +248,10 @@ function Driver() {
     // when the user saves the Polyomino in the Constructor
     $constructorSave.on("click", () => {
       if (!$constructorSave.hasClass("mdl-button--disabled")) {
-
+        // add all the vectors in the Constructor into a Polyomino. hand that to the Palette
+        let newPoly =  new ps.Polyomino(that.constructor.vectors.values());
+        that.palette.add( newPoly );
+        
         if (ps.flags.SHOW_LOGS) console.log("The polyomino in the Constructor was saved.");
       }
     });
@@ -294,9 +297,9 @@ function Driver() {
         ps.buttonToDisabled($fieldClear);
         ps.buttonToDisabled($fieldSolve);
         ps.buttonToAccent($fieldStop);
-
+        
+        // start solving!
         that.solver.solve();
-        that.solver.expand();
       }
     });
 

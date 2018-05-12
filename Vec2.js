@@ -32,7 +32,7 @@ ps.Vec2 = function (x, y) {
     Checks if this Vec2 is equal to another Vec2
   */
   that.equals = function (vector) {
-    if (that.x === vector.x && that.y === vector.y)
+    if (vector.hash === that.hash)
       return true;
     return false;
   }
