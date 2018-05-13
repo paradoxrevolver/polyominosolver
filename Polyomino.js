@@ -19,7 +19,7 @@ ps.Polyomino = function (vecArray) {
     // update the hashcode
     that.updateHash();
   }
-  
+
   // given a new array of Vec2 objects, forces squares to be an updated HashMap
   that.updateSquares = function (vecArray) {
     // this temporary array will prepare [Vec2.hash, Vec2] pairs that are used to instantiate a HashMap
@@ -31,7 +31,49 @@ ps.Polyomino = function (vecArray) {
     });
     that.squares = new HashMap(pairs);
   }
-  
+
+  /*
+    Returns true if the given "polyomino" fits entirely within this Polyomino
+    Returns false if the given "polyomino" is not contained within this Polyomino
+  */
+  that.contains = function (polyomino) {
+    // for each squares in the given polyomino
+    polyomino.squares.forEach( function (vector, hash) {
+      // if the given polyomino's vector isn't in this polyomino's vectors
+      if( !that.squares.has(hash) )
+        // then the given polyomino is not contained within this one!
+        return false;
+    });
+    // otherwise, all is good
+    return true;
+  }
+
+  /*
+    Returns true if the given "polyomino" shares any vectors with this Polyomino
+    Returns false if the two Polyominoes do not overlap
+  */
+  that.overlaps = function (polyomino) {
+    let smallerPolyomino = polyomino;
+    let biggerPolyomino = that;
+    // first, let's prioritize the smaller polyomino for efficiency
+    // if the bigger polyomino (which we assumed was this polyomino) is actually smaller than the given polyomino
+    if( biggerPolyomino.squares.size < smallerPolyomino.squares.size ) {
+      // swap them
+      smallerPolyomino = that;
+      biggerPolyomino = polyomino;
+    }
+    
+    // for each vector in the smaller polyomino
+    smallerPolyomino.squares.forEach(function(vector, hash) {
+      // if the smaller polyomino's vector is the same as one in the bigger polyomino
+      if( biggerPolyomino.squares.has(hash) )
+        // then they must overlap
+        return true;
+    });
+    // otherwise, they must not overlap
+    return false;
+  }
+
   /*
     Returns an object called "max" with an x and y property that are the maximum x and y of the Polyomino
   */
@@ -113,14 +155,14 @@ ps.Polyomino = function (vecArray) {
     that.updateHash(values);
   }
 
-  that.shift = function (x,y) {
+  that.shift = function (x, y) {
     let values = that.squares.values();
-    values.forEach( function(vector) {
-      vector.shift(x,y);
+    values.forEach(function (vector) {
+      vector.shift(x, y);
     });
     that.updateSquares(values);
   }
-  
+
   /*
     flipX() takes no parameters and simply flips the polyomino over the x axis.
   */

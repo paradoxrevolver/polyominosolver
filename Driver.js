@@ -302,7 +302,7 @@ function Driver() {
         ps.buttonToAccent($fieldStop);
 
         // start solving!
-        that.solver.solve();
+        that.startSolve();
       }
     });
 
@@ -357,7 +357,8 @@ function Driver() {
         };
         // update the field grid
         that.fieldGrid = that.initGrid($("#polyomino-field-svg"), that.fieldSquareLength);
-
+        that.field.clear();
+        
         if (ps.flags.SHOW_LOGS) console.log("The Field was increased in size to " + that.fieldSquareLength + ".");
       }
     });
@@ -371,7 +372,8 @@ function Driver() {
         };
         // update the field grid
         that.fieldGrid = that.initGrid($("#polyomino-field-svg"), that.fieldSquareLength);
-
+        that.field.clear();
+        
         if (ps.flags.SHOW_LOGS) console.log("The Field was decreased in size to " + that.fieldSquareLength + ".");
       }
     });
@@ -411,7 +413,24 @@ function Driver() {
       window.open("https://github.com/paradoxrevolver/polyominosolver", "_blank");
     })
   }
-
+  
+  /*
+    Prepares to and starts the solver.
+  */
+  that.startSolve = function() {
+    // we need to give the solver several things to work with
+    // first, an array of all the available Polyominoes to solver with
+    let polyominoes = that.palette.polyominoes.values();
+    // then, the field that the solver has to work with, in the form of a Polyomino
+    let field = new ps.Polyomino( that.field.vectors.values() );
+    // finally, a set of rules that the solver must adhere to
+    let rules = {
+      allowRotation: true,
+      allowReflection: false
+    };
+    that.solver.solve();
+  }
+  
   /*
     Takes whatever is currently in the Constructor, clones it, passes it to the Palette as a Polyomino.
   */

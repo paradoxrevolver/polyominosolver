@@ -30,6 +30,21 @@ ps.Field = function() {
     if(ps.flags.SHOW_LOGS) console.log( temp.toString() + " was deleted from the field." );
   }
   
+  /*
+    Clears the Field of all vectors.
+  */
+  that.clear = function() {
+    that.vectors.clear();
+  }
+  
+  
+  that.toString = function() {
+    console.log("Field vectors in the order the HashMap is holding them:\n");
+    that.vectors.forEach( function(vector) {
+      console.log(vector + "\n");
+    });
+  }
+  
   // initalize
   that.init();
 }
