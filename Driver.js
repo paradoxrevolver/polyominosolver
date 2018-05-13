@@ -33,7 +33,7 @@ function Driver() {
   $(document).ready(function () {
     that.init();
   });
-  
+
   /*
     This function initiatlizes the Driver when the page loads.
   */
@@ -102,7 +102,10 @@ function Driver() {
     $element.addClass("is-active");
     $element.attr("fill", "#3f51b5");
     if ($element.attr("svgname") === "polyomino-constructor-svg") {
-      that.constructor.add( parseInt($element.attr("j")), parseInt($element.attr("i")));
+      that.constructor.add(parseInt($element.attr("j")), parseInt($element.attr("i")));
+    }
+    else if ($element.attr("svgname") === "polyomino-field-svg") {
+      that.field.add(parseInt($element.attr("j")), parseInt($element.attr("i")));
     }
   };
 
@@ -248,10 +251,8 @@ function Driver() {
     // when the user saves the Polyomino in the Constructor
     $constructorSave.on("click", () => {
       if (!$constructorSave.hasClass("mdl-button--disabled")) {
-        // add all the vectors in the Constructor into a Polyomino. hand that to the Palette
-        let newPoly =  new ps.Polyomino(that.constructor.vectors.values());
-        that.palette.add( newPoly );
-        
+        that.saveToPalette();
+
         if (ps.flags.SHOW_LOGS) console.log("The polyomino in the Constructor was saved.");
       }
     });
@@ -265,7 +266,8 @@ function Driver() {
         };
         // update the constructor grid
         that.constructorGrid = that.initGrid($("#polyomino-constructor-svg"), that.constructorSquareLength);
-
+        that.constructor.clear();
+        
         if (ps.flags.SHOW_LOGS) console.log("The Constructor was increased in size to " + that.constructorSquareLength + ".");
       }
     });
@@ -279,7 +281,8 @@ function Driver() {
         };
         // update the constructor grid
         that.constructorGrid = that.initGrid($("#polyomino-constructor-svg"), that.constructorSquareLength);
-
+        that.constructor.clear();
+        
         if (ps.flags.SHOW_LOGS) console.log("The Constructor was decreased in size to " + that.constructorSquareLength + ".");
       }
     });
@@ -297,7 +300,7 @@ function Driver() {
         ps.buttonToDisabled($fieldClear);
         ps.buttonToDisabled($fieldSolve);
         ps.buttonToAccent($fieldStop);
-        
+
         // start solving!
         that.solver.solve();
       }
@@ -402,13 +405,32 @@ function Driver() {
       if (ps.flags.SHOW_LOGS) console.log("About opened.");
       window.open("https://github.com/paradoxrevolver/polyominosolver", "_blank");
     });
-    
+
     $drawerHelp.on("click", () => {
       if (ps.flags.SHOW_LOGS) console.log("Help opened.");
       window.open("https://github.com/paradoxrevolver/polyominosolver", "_blank");
     })
   }
 
+  /*
+    Takes whatever is currently in the Constructor, clones it, passes it to the Palette as a Polyomino.
+  */
+  that.saveToPalette = function() {
+    // temp array
+    let newVectors = [];
+    // for each vector in the constructor
+    that.constructor.vectors.values().forEach( function(vector) {
+      // push a completely new vector object into the vector array. cloning
+      newVectors.push( new ps.Vec2( vector.x, vector.y ) );
+    });
+    // create a new Polyomino containing the cloned vectors
+    let newPoly = new ps.Polyomino(newVectors);
+    if( ps.flags.SHOW_LOGS ) console.log( "The following Polyomino was just pushed to the Palette:\n" + newPoly.toString());
+    
+    // save the new Polyomino to the Palette
+    that.palette.add(newPoly);
+  }
+  
   /*
     
   */
@@ -431,7 +453,7 @@ function Driver() {
       myfield: that.field || []
     };
   }
-  
+
   /*
     Performs a local save of all the vital data current in PolyominoSolver
   */
@@ -452,4 +474,5 @@ function Driver() {
     event.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
     link.dispatchEvent(event);
   };
+
 }

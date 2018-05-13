@@ -10,6 +10,18 @@ ps.Polyomino = function (vecArray) {
 
   that.init = function (vecArray) {
     // VARIABLES
+    // every time we create a Polyomino, it should be able to store the squares that make it up
+    // we use a HashMap, so that if a Polyomino and a Polyomino are compared, it takes O(n) time to check for overlap instead of O(n^2).
+    that.updateSquares(vecArray);
+
+    // reset the vectors the moment all of them have been put into the hash table
+    that.reset();
+    // update the hashcode
+    that.updateHash();
+  }
+  
+  // given a new array of Vec2 objects, forces squares to be an updated HashMap
+  that.updateSquares = function (vecArray) {
     // this temporary array will prepare [Vec2.hash, Vec2] pairs that are used to instantiate a HashMap
     let pairs = [];
     // loop through the initially given vector array
@@ -17,13 +29,9 @@ ps.Polyomino = function (vecArray) {
       // push the [Vec2.hash, Vec2] pairs into the array
       pairs.push([vector.hash, vector]);
     });
-    
-    // every time we create a Polyomino, it should be able to store the squares that make it up
-    // we use a HashMap, so that if a Polyomino and a Polyomino are compared, it takes O(n) time to check for overlap instead of O(n^2).
     that.squares = new HashMap(pairs);
-    that.reset();
   }
-
+  
   /*
     Returns an object called "max" with an x and y property that are the maximum x and y of the Polyomino
   */
@@ -53,11 +61,8 @@ ps.Polyomino = function (vecArray) {
   */
   that.getMin = function () {
     let squaresArray = that.squares.values();
-    console.log(that.squares);
-    console.log(squaresArray);
     let minX = squaresArray[0].x;
     let minY = squaresArray[0].y;
-    console.log("x: " + minX + " y: " + minY + "\n");
     // traverse all vectors in the array
     // we want to find the maximum x and y
     for (var i = 1; i < squaresArray.length; i++) {
@@ -67,7 +72,6 @@ ps.Polyomino = function (vecArray) {
       // if we find a new, lower Y
       if (squaresArray[i].y < minY)
         minY = squaresArray[i].y;
-      console.log("x: " + squaresArray[i].x + " y: " + squaresArray[i].y + "\n");
     }
     let min = {
       x: minX,
@@ -84,12 +88,7 @@ ps.Polyomino = function (vecArray) {
     squaresArray.sort(function (a, b) {
       return a.x !== b.x ? a.x - b.x : (a.y !== b.y ? a.y - b.y : 0)
     });
-    let array = [];
-    squaresArray.forEach(function (vector) {
-      // push the [key, value] pairs into the array
-      array.push([vector.hash, vector]);
-    });
-    that.squares = new HashMap(array);
+    that.updateSquares(squaresArray);
   }
 
   /*
@@ -98,39 +97,50 @@ ps.Polyomino = function (vecArray) {
   */
   that.reset = function () {
     let min = that.getMin();
-    console.log(min);
     // now that we have the lowest values, we can iterate through and shift the entire polyomino
-    that.squares.forEach(function (vector, hash) {
-      vector.shift(-min.x, -min.y)
-    });
+    that.shift(-min.x, -min.y);
   }
 
-  /*
+  /* 
     Rotating a polyomino should only be done by 90, 180, or 270 degrees.
     This function uses matrix multiplication and a 2D rotation matrix.
   */
   that.rotate = function (degrees) {
-    that.squares.forEach(function (vector) {
+    let values = that.squares.values();
+    values.forEach(function (vector) {
       vector.transform(Math.cos(degrees), -Math.sin(degrees), Math.sin(degrees), Math.cos(degrees))
     });
+    that.updateHash(values);
   }
 
+  that.shift = function (x,y) {
+    let values = that.squares.values();
+    values.forEach( function(vector) {
+      vector.shift(x,y);
+    });
+    that.updateSquares(values);
+  }
+  
   /*
     flipX() takes no parameters and simply flips the polyomino over the x axis.
   */
   that.flipX = function () {
-    squares.forEach(function (vector) {
+    let values = that.squares.values();
+    values.forEach(function (vector) {
       vector.transform(1, 0, 0, -1)
     });
+    that.updateHash(values);
   }
 
-  /*
+  /*f
     flipY() takes no parameters and simply flips the polyomino over the y axis.
   */
   that.flipY = function () {
-    squares.forEach(function (vector) {
+    let values = that.squares.values();
+    values.forEach(function (vector) {
       vector.transform(-1, 0, 0, 1)
     });
+    that.updateHash(values);
   }
 
   /*
@@ -142,7 +152,8 @@ ps.Polyomino = function (vecArray) {
   }
 
   /*
-    
+    Converts the Polyomino into an ASCII form.
+    It checks hashes in the HashMap to verify that vectors exist.
   */
   that.toString = function () {
     let temp = "";
