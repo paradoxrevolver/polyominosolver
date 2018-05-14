@@ -27,7 +27,6 @@ function Driver() {
   that.palette = new ps.Palette();
   that.bank = new ps.Bank();
   that.field = new ps.Field();
-  that.solver = new ps.Solver();
 
   // start initialization as soon as the document is ready to go
   $(document).ready(function () {
@@ -103,8 +102,7 @@ function Driver() {
     $element.attr("fill", "#3f51b5");
     if ($element.attr("svgname") === "polyomino-constructor-svg") {
       that.constructor.add(parseInt($element.attr("j")), parseInt($element.attr("i")));
-    }
-    else if ($element.attr("svgname") === "polyomino-field-svg") {
+    } else if ($element.attr("svgname") === "polyomino-field-svg") {
       that.field.add(parseInt($element.attr("j")), parseInt($element.attr("i")));
     }
   };
@@ -113,7 +111,9 @@ function Driver() {
     $element.removeClass("is-active");
     $element.attr("fill", "white");
     if ($element.attr("svgname") === "polyomino-constructor-svg") {
-      that.constructor.delete($element.attr("j"), $element.attr("i"));
+      that.constructor.delete(parseInt($element.attr("j")), parseInt($element.attr("i")));
+    } else if ($element.attr("svgname") === "polyomino-field-svg") {
+      that.field.delete(parseInt($element.attr("j")), parseInt($element.attr("i")));
     }
   };
 
@@ -267,7 +267,7 @@ function Driver() {
         // update the constructor grid
         that.constructorGrid = that.initGrid($("#polyomino-constructor-svg"), that.constructorSquareLength);
         that.constructor.clear();
-        
+
         if (ps.flags.SHOW_LOGS) console.log("The Constructor was increased in size to " + that.constructorSquareLength + ".");
       }
     });
@@ -282,7 +282,7 @@ function Driver() {
         // update the constructor grid
         that.constructorGrid = that.initGrid($("#polyomino-constructor-svg"), that.constructorSquareLength);
         that.constructor.clear();
-        
+
         if (ps.flags.SHOW_LOGS) console.log("The Constructor was decreased in size to " + that.constructorSquareLength + ".");
       }
     });
@@ -358,7 +358,7 @@ function Driver() {
         // update the field grid
         that.fieldGrid = that.initGrid($("#polyomino-field-svg"), that.fieldSquareLength);
         that.field.clear();
-        
+
         if (ps.flags.SHOW_LOGS) console.log("The Field was increased in size to " + that.fieldSquareLength + ".");
       }
     });
@@ -373,7 +373,7 @@ function Driver() {
         // update the field grid
         that.fieldGrid = that.initGrid($("#polyomino-field-svg"), that.fieldSquareLength);
         that.field.clear();
-        
+
         if (ps.flags.SHOW_LOGS) console.log("The Field was decreased in size to " + that.fieldSquareLength + ".");
       }
     });
@@ -413,43 +413,55 @@ function Driver() {
       window.open("https://github.com/paradoxrevolver/polyominosolver", "_blank");
     })
   }
-  
+
   /*
     Prepares to and starts the solver.
   */
-  that.startSolve = function() {
+  that.startSolve = function () {
     // we need to give the solver several things to work with
     // first, an array of all the available Polyominoes to solver with
     let polyominoes = that.palette.polyominoes.values();
     // then, the field that the solver has to work with, in the form of a Polyomino
-    let field = new ps.Polyomino( that.field.vectors.values() );
+    let field = new ps.Polyomino(that.field.vectors.values());
     // finally, a set of rules that the solver must adhere to
     let rules = {
       allowRotation: true,
       allowReflection: false
     };
-    that.solver.solve();
+
+    if(ps.flags.SHOW_LOGS) {
+      console.log("OBJECTS PASSED TO SOLVER:");
+      console.log("Polyominoes:");
+      console.log(polyominoes);
+      console.log("Field:");
+      console.log(field);
+      console.log("Rules:");
+      console.log(rules);
+    }
+    
+    // create the Solver, which will immediately begin solving
+    that.solver = new ps.Solver(polyominoes, field, rules);
   }
-  
+
   /*
     Takes whatever is currently in the Constructor, clones it, passes it to the Palette as a Polyomino.
   */
-  that.saveToPalette = function() {
+  that.saveToPalette = function () {
     // temp array
     let newVectors = [];
     // for each vector in the constructor
-    that.constructor.vectors.values().forEach( function(vector) {
+    that.constructor.vectors.values().forEach(function (vector) {
       // push a completely new vector object into the vector array. cloning
-      newVectors.push( new ps.Vec2( vector.x, vector.y ) );
+      newVectors.push(new ps.Vec2(vector.x, vector.y));
     });
     // create a new Polyomino containing the cloned vectors
     let newPoly = new ps.Polyomino(newVectors);
-    if( ps.flags.SHOW_LOGS ) console.log( "The following Polyomino was just pushed to the Palette:\n" + newPoly.toString());
-    
+    if (ps.flags.SHOW_LOGS) console.log("The following Polyomino was just pushed to the Palette:\n" + newPoly.toString());
+
     // save the new Polyomino to the Palette
     that.palette.add(newPoly);
   }
-  
+
   /*
     
   */

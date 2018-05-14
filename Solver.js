@@ -2,33 +2,77 @@
   The Solver is actually responsible for the algorithm that perform automatic polyomino fitting.
   Warning: Not for the faint of heart.
 */
-if(ps.flags.SHOW_LOGS) console.log("Creating the Solver.");
-ps.Solver = function() {
+if (ps.flags.SHOW_LOGS) console.log("Creating the Solver.");
+ps.Solver = function (polyominoes, field, rules) {
+  let that = this;
 
-  polyexpands = [];
+  /*
+    Initalizes the Solver
+  */
+  that.init = function (polyominoes, field, rules) {
+    // save variables to Solver
+    that.polyominoes = polyominoes;
+    that.field = field;
+    that.rules = rules;
 
-  this.solve = function() {
-    if(ps.flags.SHOW_LOGS) console.log("CURRENTLY SOLVING...");
+    // validate the solver
+    let validation = that.validateSolver();
+    that.solverIsValid = validation.solverIsValid;
+
+    // consider validation results
+    if (ps.flags.SHOW_LOGS) console.log(validation.errorMessage);
+    if (true || !validation.solverIsValid) ps.showSnackbar(validation.snackbarMessage);
+    // if the validation fails early, just quit.
+    if (!that.solverIsValid) return;
+
+    console.log("test early exit");
 
   }
 
   /*
-    expand() loads every Polyomino in polyominoes into a individual Polyexpand objects.
-    Then, based on the field and the set of rules currently specified, the Polyexpands are expanded,
-    creating many new Polyomino objects representing all valid orientations.
+    Returns an object with important properties about the Solver before solving begins.
   */
-  this.expand = function( polyominoes, field, rules ) {
-    // fill the polyexpands array with Polyexpand objects, each holding one Polyomino
-    // each new Polyexpand object will immediately increase in size according the rules the user gave it
-    for( let i = 0; i < polyominoes.length; i++ ) {
-      polyexpands.push( new ps.Polyexpand( polyominoes[i], rules ) );
+  that.validateSolver = function () {
+    // initial validation values
+    let snackbarMessage = "Solver validation was successful.";
+    let errorMessage = "";
+    let solverIsValid = true;
+
+    // CASE: no Polyominoes were given to the Solver
+    if (!(that.polyominoes.length > 0)) {
+      let message = "No Polyominoes were given to solve with!";
+      snackbarMessage = message;
+      errorMessage += message + "\n";
+      solverIsValid = false;
     }
-    console.log(polyexpands);
+
+    // CASE: no errors were found
+    if (solverIsValid)
+      errorMessage = "There were no errors in validating the Solver."
+
+    // create and pass final validation values
+    let validation = {
+      snackbarMessage: snackbarMessage,
+      errorMessage: errorMessage,
+      solverIsValid: solverIsValid
+    };
+    return validation;
   }
 
-  this.init = function() {
-    if(ps.flags.SHOW_LOGS) console.log("Solver initiatlized.");
+  /*
+    Returns the total count of squares in all Polyominoes in the polyArray
+  */
+  that.getSquareCount = function (polyArray) {
+    let count = 0;
+    polyArray.forEach(function(polyomino) {
+      count += polyomino.squares.size;
+    });
+    return count;
   }
 
-  this.init();
+  that.expand = function () {
+
+  }
+
+  that.init(polyominoes, field, rules);
 }
