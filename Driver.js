@@ -67,11 +67,19 @@ function Driver() {
   */
   that.performTests = function () {
     console.log("########## NOW PERFORMING TESTS ##########");
-    let test = [new ps.Vec2(1, 1),
+    let test = new ps.Polyomino(
+               [new ps.Vec2(1, 1),
                 new ps.Vec2(0, 1),
                 new ps.Vec2(1, 0),
                 new ps.Vec2(0, 2),
-                new ps.Vec2(2, 1)];
+                new ps.Vec2(2, 1),
+               new ps.Vec2(3, 1)]
+    );
+    let testBlock = new ps.Polyomino(
+                    [new ps.Vec2(0, 0), new ps.Vec2(0, 1), new ps.Vec2(0, 2),
+                     new ps.Vec2(1, 0), new ps.Vec2(1, 1), new ps.Vec2(1, 2),
+                     new ps.Vec2(2, 0), new ps.Vec2(2, 1), new ps.Vec2(2, 2)]
+    );
     /* The "torcado" test Polyomino, a tribute to a friend
     let test = [new ps.Vec2(0,2), new ps.Vec2(1,2), new ps.Vec2(1,1), new ps.Vec2(1,0), 
                 new ps.Vec2(2,2), new ps.Vec2(4,2), new ps.Vec2(4,1), new ps.Vec2(4,0),
@@ -85,15 +93,17 @@ function Driver() {
                 new ps.Vec2(21,0), new ps.Vec2(22,1), new ps.Vec2(24,2), new ps.Vec2(24,1),
                 new ps.Vec2(24,0), new ps.Vec2(25,2), new ps.Vec2(25,0), new ps.Vec2(26,2),
                 new ps.Vec2(26,1), new ps.Vec2(26,0)]; */
-    console.log("Preparing an array of the following vectors:\n" + test);
+    //console.log("Preparing an array of the following vectors:\n" + test);
     //test.sort( function(a, b) { return a.x !== b.x ? a.x-b.x : (a.y !== b.y ? a.y-b.y : 0 ) });
     //console.log("After performing test.sort():\n" + test);
-    let polyomino = new ps.Polyomino(test);
-    console.log("Polyomino squares before sorting:\n" + polyomino.toVecString());
-    polyomino.sort();
-    console.log("Polyomino squares after sorting:\n" + polyomino.toVecString());
-    console.log("Printing the created Polyomino:\n" + polyomino);
-    console.log("Printing the hash of the created Polyomino:\n" + ps.hashPolyomino(polyomino));
+    //let polyomino = new ps.Polyomino(test);
+    //console.log("Polyomino squares before sorting:\n" + polyomino.toVecString());
+    //polyomino.sort();
+    //console.log("Polyomino squares after sorting:\n" + polyomino.toVecString());
+    //console.log("Printing the created Polyomino:\n" + polyomino);
+    //console.log("Printing the hash of the created Polyomino:\n" + ps.hashPolyomino(polyomino));
+    
+    console.log(testBlock.contains(test));
   }
 
   // functions for using on grid squares
@@ -302,7 +312,7 @@ function Driver() {
         ps.buttonToAccent($fieldStop);
 
         // start solving!
-        that.startSolve();
+        that.solve();
       }
     });
 
@@ -310,13 +320,7 @@ function Driver() {
     $fieldStop.on("click", () => {
       // run if the button isn't disabled
       if (!$fieldStop.hasClass("mdl-button--disabled")) {
-        // changed buttons enabled/disabled
-        ps.buttonToDisabled($fieldStop);
-        ps.buttonToPrimary($fieldFlood);
-        ps.buttonToPrimary($fieldClear);
-        ps.buttonToAccent($fieldSolve);
-
-        if (ps.flags.SHOW_LOGS) console.log("SOLVING WAS STOPPED.");
+        that.stop();
       }
     });
 
@@ -417,30 +421,48 @@ function Driver() {
   /*
     Prepares to and starts the solver.
   */
-  that.startSolve = function () {
+  that.solve = function () {
+    if (ps.flags.SHOW_LOGS) console.log("SOLVING WAS STARTED!");
     // we need to give the solver several things to work with
     // first, an array of all the available Polyominoes to solver with
     let polyominoes = that.palette.polyominoes.values();
     // then, the field that the solver has to work with, in the form of a Polyomino
-    let field = new ps.Polyomino(that.field.vectors.values());
+    let newFieldVecs = [];
+    that.field.vectors.values().forEach(function(vector) {
+      newFieldVecs.push(vector.clone());
+    });
+    let field = new ps.Polyomino(newFieldVecs);
     // finally, a set of rules that the solver must adhere to
     let rules = {
-      allowRotation: true,
-      allowReflection: false
+      allowReflections: true,
+      allowRotations: true
     };
-
+    
     if(ps.flags.SHOW_LOGS) {
       console.log("OBJECTS PASSED TO SOLVER:");
       console.log("Polyominoes:");
       console.log(polyominoes);
+      console.log(polyominoes + "\n");
       console.log("Field:");
       console.log(field);
+      console.log(field + "\n");
       console.log("Rules:");
       console.log(rules);
     }
     
     // create the Solver, which will immediately begin solving
-    that.solver = new ps.Solver(polyominoes, field, rules);
+    that.solver = new ps.Solver(polyominoes, field, rules); 
+    
+    that.stop();
+  }
+  
+  that.stop = function() {
+    if (ps.flags.SHOW_LOGS) console.log("SOLVING WAS STOPPED.");
+    // changed buttons enabled/disabled
+    ps.buttonToDisabled($("#polyomino-field-stop"));
+    ps.buttonToPrimary($("#polyomino-field-flood"));
+    ps.buttonToPrimary($("#polyomino-field-clear"));
+    ps.buttonToAccent($("#polyomino-field-solve"));
   }
 
   /*

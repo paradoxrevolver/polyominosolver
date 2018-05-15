@@ -16,8 +16,8 @@ ps.Polyomino = function (vecArray) {
 
     // reset the vectors the moment all of them have been put into the hash table
     that.reset();
-    // update the hashcode
-    that.updateHash();
+    // sorts the Polyomino
+    that.sort();
   }
 
   // given a new array of Vec2 objects, forces squares to be an updated HashMap
@@ -29,7 +29,10 @@ ps.Polyomino = function (vecArray) {
       // push the [Vec2.hash, Vec2] pairs into the array
       pairs.push([vector.hash, vector]);
     });
+    delete that.squares;
     that.squares = new HashMap(pairs);
+    // update the hashcode
+    that.updateHash();
   }
 
   /*
@@ -37,15 +40,16 @@ ps.Polyomino = function (vecArray) {
     Returns false if the given "polyomino" is not contained within this Polyomino
   */
   that.contains = function (polyomino) {
+    let result = true;
     // for each squares in the given polyomino
-    polyomino.squares.forEach( function (vector, hash) {
+    polyomino.squares.forEach(function (vector, hash) {
       // if the given polyomino's vector isn't in this polyomino's vectors
-      if( !that.squares.has(hash) )
+      if (!that.squares.has(hash))
         // then the given polyomino is not contained within this one!
-        return false;
+        result = false;
     });
     // otherwise, all is good
-    return true;
+    return result;
   }
 
   /*
@@ -57,21 +61,32 @@ ps.Polyomino = function (vecArray) {
     let biggerPolyomino = that;
     // first, let's prioritize the smaller polyomino for efficiency
     // if the bigger polyomino (which we assumed was this polyomino) is actually smaller than the given polyomino
-    if( biggerPolyomino.squares.size < smallerPolyomino.squares.size ) {
+    if (biggerPolyomino.squares.size < smallerPolyomino.squares.size) {
       // swap them
       smallerPolyomino = that;
       biggerPolyomino = polyomino;
     }
-    
+
     // for each vector in the smaller polyomino
-    smallerPolyomino.squares.forEach(function(vector, hash) {
+    smallerPolyomino.squares.forEach(function (vector, hash) {
       // if the smaller polyomino's vector is the same as one in the bigger polyomino
-      if( biggerPolyomino.squares.has(hash) )
+      if (biggerPolyomino.squares.has(hash))
         // then they must overlap
         return true;
     });
     // otherwise, they must not overlap
     return false;
+  }
+
+  /*
+    Return true if this Polyomino's hashcode exactly matches the given Polyomino's.
+    Returns false otherwise.
+  */
+  that.equals = function (polyomino) {
+    if (that.hash === polyomino.hash)
+      return true;
+    else
+      return false;
   }
 
   /*
@@ -150,11 +165,24 @@ ps.Polyomino = function (vecArray) {
   that.rotate = function (degrees) {
     let values = that.squares.values();
     values.forEach(function (vector) {
-      vector.transform(Math.cos(degrees), -Math.sin(degrees), Math.sin(degrees), Math.cos(degrees))
+      vector.transform(Math.round(Math.cos(that.toRadians(degrees))),
+                       Math.round(-Math.sin(that.toRadians(degrees))),
+                       Math.round(Math.sin(that.toRadians(degrees))),
+                       Math.round(Math.cos(that.toRadians(degrees))));
     });
     that.updateHash(values);
   }
 
+  /*
+    Converts degrees to radians
+  */
+  that.toRadians = function (degrees) {
+    return (degrees * (Math.PI / 180));
+  }
+
+  /*
+    Shifts all the squares in this Polyomino by x and y.
+  */
   that.shift = function (x, y) {
     let values = that.squares.values();
     values.forEach(function (vector) {
@@ -174,7 +202,7 @@ ps.Polyomino = function (vecArray) {
     that.updateHash(values);
   }
 
-  /*f
+  /*
     flipY() takes no parameters and simply flips the polyomino over the y axis.
   */
   that.flipY = function () {
@@ -183,6 +211,21 @@ ps.Polyomino = function (vecArray) {
       vector.transform(-1, 0, 0, 1)
     });
     that.updateHash(values);
+  }
+
+  /*
+    Returns a reference to a new Polyomino that is a clone of this one.
+  */
+  that.clone = function () {
+    // prepare an array for new Vec2 objects
+    let newVecs = [];
+    // for every Vec2 in this Polyomino, clone a new Vec2 into the array
+    that.squares.values().forEach(function (vector) {
+      newVecs.push(vector.clone());
+    });
+    // create a new Polyomino with the references to the new Vec2 objects
+    let newPoly = new ps.Polyomino(newVecs);
+    return newPoly;
   }
 
   /*
@@ -197,9 +240,9 @@ ps.Polyomino = function (vecArray) {
     Converts the Polyomino into an ASCII form.
     It checks hashes in the HashMap to verify that vectors exist.
   */
-  that.toString = function () {
+  that.toString = function (customMax) {
     let temp = "";
-    let max = that.getMax();
+    let max = customMax || that.getMax();
     for (let i = max.y; i >= 0; i--) {
       for (let j = 0; j <= max.x; j++) {
         if (that.squares.has(ps.hashCoords({

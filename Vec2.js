@@ -41,6 +41,11 @@ ps.Vec2 = function (x, y) {
     Performs a transformation on the vector, based on a pair of linear combinations
   */
   that.transform = function (a, b, c, d) {
+    
+    /*
+    console.log("| " + a.toString().padStart(2, " ") + " " + b.toString().padStart(2, " ") + " |\n" +
+                "| " + c.toString().padStart(2, " ") + " " + d.toString().padStart(2, " ") + " |");
+    */
     // first we do matrix multiplication
     var newX = that.x * a + that.y * b;
     var newY = that.x * c + that.y * d;
@@ -50,10 +55,17 @@ ps.Vec2 = function (x, y) {
     // values were changed, update the hash
     that.updateHash();
   }
+  
+  /*
+    Returns a reference to a new Vec2 that is a clone of this Vec2
+  */
+  that.clone = function () {
+    let newVec = new ps.Vec2(that.x, that.y);
+    return newVec;
+  }
 
   /*
     Generates a hashcode for this Vec2 that is supposedly unique for all Vec2.
-    The returned hashcode is a String with a length of HASH_VECTOR_DIGITS * 2.
     The reason this function exists is to use a HashMap in Polyominoes.
   */
   that.updateHash = function () {
