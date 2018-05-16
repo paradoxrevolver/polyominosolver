@@ -67,43 +67,157 @@ function Driver() {
   */
   that.performTests = function () {
     console.log("########## NOW PERFORMING TESTS ##########");
-    let test = new ps.Polyomino(
-               [new ps.Vec2(1, 1),
-                new ps.Vec2(0, 1),
-                new ps.Vec2(1, 0),
-                new ps.Vec2(0, 2),
-                new ps.Vec2(2, 1),
-               new ps.Vec2(3, 1)]
-    );
-    let testBlock = new ps.Polyomino(
-                    [new ps.Vec2(0, 0), new ps.Vec2(0, 1), new ps.Vec2(0, 2),
-                     new ps.Vec2(1, 0), new ps.Vec2(1, 1), new ps.Vec2(1, 2),
-                     new ps.Vec2(2, 0), new ps.Vec2(2, 1), new ps.Vec2(2, 2)]
-    );
-    /* The "torcado" test Polyomino, a tribute to a friend
-    let test = [new ps.Vec2(0,2), new ps.Vec2(1,2), new ps.Vec2(1,1), new ps.Vec2(1,0), 
-                new ps.Vec2(2,2), new ps.Vec2(4,2), new ps.Vec2(4,1), new ps.Vec2(4,0),
-                new ps.Vec2(5,2), new ps.Vec2(5,0), new ps.Vec2(6,2), new ps.Vec2(6,1),
-                new ps.Vec2(6,0), new ps.Vec2(8,2), new ps.Vec2(8,1), new ps.Vec2(8,0),
-                new ps.Vec2(9,2), new ps.Vec2(9,1), new ps.Vec2(10,0), new ps.Vec2(12,2),
-                new ps.Vec2(12,1), new ps.Vec2(12,0), new ps.Vec2(13,2), new ps.Vec2(13,0),
-                new ps.Vec2(14,2), new ps.Vec2(14,0), new ps.Vec2(16,1), new ps.Vec2(16,0),
-                new ps.Vec2(17,2), new ps.Vec2(17,1), new ps.Vec2(18,1), new ps.Vec2(18,0),
-                new ps.Vec2(20,2), new ps.Vec2(20,1), new ps.Vec2(20,0), new ps.Vec2(21,2),
-                new ps.Vec2(21,0), new ps.Vec2(22,1), new ps.Vec2(24,2), new ps.Vec2(24,1),
-                new ps.Vec2(24,0), new ps.Vec2(25,2), new ps.Vec2(25,0), new ps.Vec2(26,2),
-                new ps.Vec2(26,1), new ps.Vec2(26,0)]; */
-    //console.log("Preparing an array of the following vectors:\n" + test);
-    //test.sort( function(a, b) { return a.x !== b.x ? a.x-b.x : (a.y !== b.y ? a.y-b.y : 0 ) });
-    //console.log("After performing test.sort():\n" + test);
-    //let polyomino = new ps.Polyomino(test);
-    //console.log("Polyomino squares before sorting:\n" + polyomino.toVecString());
-    //polyomino.sort();
-    //console.log("Polyomino squares after sorting:\n" + polyomino.toVecString());
-    //console.log("Printing the created Polyomino:\n" + polyomino);
-    //console.log("Printing the hash of the created Polyomino:\n" + ps.hashPolyomino(polyomino));
     
-    console.log(testBlock.contains(test));
+    ///*
+    // THE 3x4 TEST
+    
+    let polyominoA = new ps.Polyomino([
+      new ps.Vec2(0,2),
+      new ps.Vec2(0,1),
+      new ps.Vec2(0,0), new ps.Vec2(1,0)
+    ]);
+    
+    let polyominoB = new ps.Polyomino([
+                        new ps.Vec2(1,2),
+                        new ps.Vec2(1,1),
+      new ps.Vec2(0,0), new ps.Vec2(1,0)
+    ]);
+    
+    let polyominoC = new ps.Polyomino([
+      new ps.Vec2(0,1), new ps.Vec2(1,1),
+      new ps.Vec2(0,0), new ps.Vec2(1,0)
+    ]);
+    
+    let polyominoD = new ps.Polyomino([
+      new ps.Vec2(0,3),
+      new ps.Vec2(0,2),
+      new ps.Vec2(0,1),
+      new ps.Vec2(0,0)
+    ]);
+    
+    that.field.add(0,3); that.field.add(1,3); that.field.add(2,3); that.field.add(3,3);
+    that.field.add(0,2); that.field.add(1,2); that.field.add(2,2); that.field.add(3,2);
+    that.field.add(0,1); that.field.add(1,1); that.field.add(2,1); that.field.add(3,1);
+    that.field.add(0,0); that.field.add(1,0); that.field.add(2,0); that.field.add(3,0);
+    
+    that.palette.add(polyominoA);
+    that.palette.add(polyominoB);
+    that.palette.add(polyominoC);
+    that.palette.add(polyominoD);
+    //*/
+    
+    /*
+    // THE 6x10 TEST
+    
+    
+    let polyomino = new ps.Polyomino([
+      new ps.Vec2(0,4), new ps.Vec2(1,4), new ps.Vec2(2,4),
+      new ps.Vec2(0,3), new ps.Vec2(1,3), new ps.Vec2(2,3),
+      new ps.Vec2(0,2), new ps.Vec2(1,2), new ps.Vec2(2,2),
+      new ps.Vec2(0,1), new ps.Vec2(1,1), new ps.Vec2(2,1),
+      new ps.Vec2(0,0), new ps.Vec2(1,0), new ps.Vec2(2,0)
+    ]);
+    
+    let polyominoF = new ps.Polyomino([
+                        new ps.Vec2(1,2), new ps.Vec2(2,2),
+      new ps.Vec2(0,1), new ps.Vec2(1,1),
+                        new ps.Vec2(1,0)
+    ]);
+    
+    let polyominoI = new ps.Polyomino([
+      new ps.Vec2(0,4),
+      new ps.Vec2(0,3),
+      new ps.Vec2(0,2),
+      new ps.Vec2(0,1),
+      new ps.Vec2(0,0)
+    ]);
+    
+    let polyominoL = new ps.Polyomino([
+      new ps.Vec2(0,3), 
+      new ps.Vec2(0,2), 
+      new ps.Vec2(0,1), 
+      new ps.Vec2(0,0), new ps.Vec2(1,0)
+    ]);
+    
+    let polyominoN = new ps.Polyomino([
+                        new ps.Vec2(1,3),
+                        new ps.Vec2(1,2),
+      new ps.Vec2(0,1), new ps.Vec2(1,1),
+      new ps.Vec2(0,0)
+    ]);
+    
+    
+    let polyominoP = new ps.Polyomino([
+      new ps.Vec2(0,2), new ps.Vec2(1,2),
+      new ps.Vec2(0,1), new ps.Vec2(1,1),
+      new ps.Vec2(0,0)
+    ]);
+    
+    let polyominoT = new ps.Polyomino([
+                        new ps.Vec2(1,2),
+                        new ps.Vec2(1,1),
+      new ps.Vec2(0,0), new ps.Vec2(1,0), new ps.Vec2(2,0)
+    ]);
+    
+    let polyominoU = new ps.Polyomino([
+      new ps.Vec2(0,1),                   new ps.Vec2(2,1),
+      new ps.Vec2(0,0), new ps.Vec2(1,0), new ps.Vec2(2,0)
+    ]);
+    
+    let polyominoV = new ps.Polyomino([
+      new ps.Vec2(0,2), 
+      new ps.Vec2(0,1), 
+      new ps.Vec2(0,0), new ps.Vec2(1,0), new ps.Vec2(2,0)
+    ]);
+    
+    let polyominoW = new ps.Polyomino([
+      new ps.Vec2(0,2),
+      new ps.Vec2(0,1), new ps.Vec2(1,1),
+                        new ps.Vec2(1,0), new ps.Vec2(2,0)
+    ]);
+    
+    let polyominoX = new ps.Polyomino([
+                        new ps.Vec2(1,2),
+      new ps.Vec2(0,1), new ps.Vec2(1,1), new ps.Vec2(2,1),
+                        new ps.Vec2(1,0)
+    ]);
+    
+    let polyominoY = new ps.Polyomino([
+                        new ps.Vec2(1,3),
+      new ps.Vec2(0,2), new ps.Vec2(1,2),
+                        new ps.Vec2(1,1),
+                        new ps.Vec2(1,0)
+    ]);
+    
+    let polyominoZ = new ps.Polyomino([
+      new ps.Vec2(0,2), new ps.Vec2(1,2),
+                        new ps.Vec2(1,1),
+                        new ps.Vec2(1,0), new ps.Vec2(2,0)
+    ]);
+    
+    that.palette.add(polyominoF);
+    that.palette.add(polyominoI);
+    that.palette.add(polyominoL);
+    that.palette.add(polyominoN);
+    that.palette.add(polyominoP);
+    that.palette.add(polyominoT);
+    that.palette.add(polyominoU);
+    that.palette.add(polyominoV);
+    that.palette.add(polyominoW);
+    that.palette.add(polyominoX);
+    that.palette.add(polyominoY);
+    that.palette.add(polyominoZ);
+    
+    that.field.add(0,5); that.field.add(1,5); that.field.add(2,5); that.field.add(3,5); that.field.add(4,5); that.field.add(5,5); that.field.add(6,5); that.field.add(7,5); that.field.add(8,5); that.field.add(9,5);
+    that.field.add(0,4); that.field.add(1,4); that.field.add(2,4); that.field.add(3,4); that.field.add(4,4); that.field.add(5,4); that.field.add(6,4); that.field.add(7,4); that.field.add(8,4); that.field.add(9,4);
+    that.field.add(0,3); that.field.add(1,3); that.field.add(2,3); that.field.add(3,3); that.field.add(4,3); that.field.add(5,3); that.field.add(6,3); that.field.add(7,3); that.field.add(8,3); that.field.add(9,3);
+    that.field.add(0,2); that.field.add(1,2); that.field.add(2,2); that.field.add(3,2); that.field.add(4,2); that.field.add(5,2); that.field.add(6,2); that.field.add(7,2); that.field.add(8,2); that.field.add(9,2);
+    that.field.add(0,1); that.field.add(1,1); that.field.add(2,1); that.field.add(3,1); that.field.add(4,1); that.field.add(5,1); that.field.add(6,1); that.field.add(7,1); that.field.add(8,1); that.field.add(9,1);
+    that.field.add(0,0); that.field.add(1,0); that.field.add(2,0); that.field.add(3,0); that.field.add(4,0); that.field.add(5,0); that.field.add(6,0); that.field.add(7,0); that.field.add(8,0); that.field.add(9,0);
+    
+    */
+    
+    that.solve();
   }
 
   // functions for using on grid squares

@@ -50,17 +50,17 @@ ps.Solver = function (polyominoes, field, rules) {
     // all polyomino are expands, prepare to store polyfits
     that.polyfits = [];
     // the base polyomino has nothing in its solution but has every Polyexpand to address
-    let basePolyomino = new ps.Polyfit([], that.polyexpands, that.field);
+    let basePolyomino = new ps.Polyfit([], that.polyexpands, that.field, undefined);
     that.polyfits.push(basePolyomino);
     // run a loop as many times as there are Polyominoes to insert into the solution
     for (let i = 0; i < that.polyominoes.length; i++) {
-      if (ps.flags.SHOW_LOOP_LOGS) console.log("POLYFITTING ITERATION #" + i);
+      if (ps.flags.SHOW_LOOP_LOGS) console.log("%c##########################################################################################\nPOLYFITTING ITERATION #" + i + "\n##########################################################################################", "background-color:#000; color:#fff");
 
       // we're going to want to save every collection of Polyfits we get from every existing Polyfit
       let newPolyfits = [];
       // for each existing Polyfit...
       that.polyfits.forEach(function (polyfit, j) {
-        if (ps.flags.SHOW_LOOP_LOGS) console.log("- Grabbing solutions from Polyfit #" + j);
+        if (ps.flags.SHOW_LOOP_LOGS) console.log("%c----------------------------------------------------------------------------------------\n- Grabbing solutions from Polyfit #" + j + "\n----------------------------------------------------------------------------------------", "background-color:#888; color:#fff");
 
         // find all the solutions that this Polyfit has to offer
         let temp = polyfit.next();
@@ -69,11 +69,11 @@ ps.Solver = function (polyominoes, field, rules) {
       that.polyfits = newPolyfits;
     }
 
-    if (ps.flags.SHOW_LOGS) {
+    if (true || ps.flags.SHOW_LOGS) {
       console.log("All Polyfits created:");
       console.log(that.polyfits);
       that.polyfits.forEach(function (polyfit) {
-        console.log(polyfit.toString());
+        console.log( "%c" + polyfit.toString(), "font-size: 30pt;" );
       });
     }
   }

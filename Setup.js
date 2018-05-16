@@ -7,7 +7,7 @@ this.ps = {};
 
 // debug flags
 ps.flags = {
-  DO_TESTS: false,
+  DO_TESTS: true,
   SHOW_LOGS: true,
   SHOW_LOOP_LOGS: false
 };

@@ -3,7 +3,7 @@
  * why do we need {source, item}?
  * if needed, we can sort out the sources to have dedicated component buttons to undo and redo
  */
-console.log("Creating the Unredo.");
+if (ps.flags.SHOW_LOGS) console.log("Creating the Unredo.");
 ps.Unredo = function() {
 
   let that = this;
