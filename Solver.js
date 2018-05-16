@@ -27,22 +27,55 @@ ps.Solver = function (polyominoes, field, rules) {
     // if the validation fails early, just quit.
     if (!that.solverIsValid) return;
 
+    // POLYOMINO EXPANSION ######################################################################
     // the solver is now validated, so let's generate Polyexpands.
     that.polyexpands = [];
     // create new Polyexpands
-    that.polyominoes.forEach( function(polyomino) {
+    that.polyominoes.forEach(function (polyomino, i) {
+      if (ps.flags.SHOW_LOOP_LOGS) console.log("Expanding Polyomino #" + i);
+
       let newPolyexpand = new ps.Polyexpand(polyomino, field, rules);
       // only add if the new Polyexpand actually created valid Polyominoes
-      if( newPolyexpand.polyominoes.length > 0 ) {
+      if (newPolyexpand.polyominoes.length > 0) {
         that.polyexpands.push(newPolyexpand);
-      }
-      else {
+      } else {
         delete newPolyexpand;
       }
     });
     if (ps.flags.SHOW_LOGS) console.log("All Polyexpands created:");
     if (ps.flags.SHOW_LOGS) console.log(that.polyexpands);
-    if (ps.flags.SHOW_LOGS) console.log(that.polyexpands + "\n");
+    //if (ps.flags.SHOW_LOGS) console.log(that.polyexpands + "\n");
+
+    // POLYOMINO REDUCTION ######################################################################
+    // all polyomino are expands, prepare to store polyfits
+    that.polyfits = [];
+    // the base polyomino has nothing in its solution but has every Polyexpand to address
+    let basePolyomino = new ps.Polyfit([], that.polyexpands, that.field);
+    that.polyfits.push(basePolyomino);
+    // run a loop as many times as there are Polyominoes to insert into the solution
+    for (let i = 0; i < that.polyominoes.length; i++) {
+      if (ps.flags.SHOW_LOOP_LOGS) console.log("POLYFITTING ITERATION #" + i);
+
+      // we're going to want to save every collection of Polyfits we get from every existing Polyfit
+      let newPolyfits = [];
+      // for each existing Polyfit...
+      that.polyfits.forEach(function (polyfit, j) {
+        if (ps.flags.SHOW_LOOP_LOGS) console.log("- Grabbing solutions from Polyfit #" + j);
+
+        // find all the solutions that this Polyfit has to offer
+        let temp = polyfit.next();
+        newPolyfits.push(...temp);
+      });
+      that.polyfits = newPolyfits;
+    }
+
+    if (ps.flags.SHOW_LOGS) {
+      console.log("All Polyfits created:");
+      console.log(that.polyfits);
+      that.polyfits.forEach(function (polyfit) {
+        console.log(polyfit.toString());
+      });
+    }
   }
 
   /*
@@ -61,9 +94,9 @@ ps.Solver = function (polyominoes, field, rules) {
       errorMessage += message + "\n";
       solverIsValid = false;
     }
-    
+
     // CASE: there are more squares in Polyominoes than there are in the field
-    if (that.getSquareCount(that.polyominoes) > that.field.squares.size ) {
+    if (that.getSquareCount(that.polyominoes) > that.field.squares.size) {
       let message = "The field is too small to fit the given Polyominoes!";
       snackbarMessage = message;
       errorMessage += message + "\n";
@@ -94,6 +127,6 @@ ps.Solver = function (polyominoes, field, rules) {
     });
     return count;
   }
-  
+
   that.init(polyominoes, field, rules);
 }

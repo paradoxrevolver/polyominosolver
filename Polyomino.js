@@ -59,6 +59,7 @@ ps.Polyomino = function (vecArray) {
   that.overlaps = function (polyomino) {
     let smallerPolyomino = polyomino;
     let biggerPolyomino = that;
+    let result = false;
     // first, let's prioritize the smaller polyomino for efficiency
     // if the bigger polyomino (which we assumed was this polyomino) is actually smaller than the given polyomino
     if (biggerPolyomino.squares.size < smallerPolyomino.squares.size) {
@@ -66,16 +67,15 @@ ps.Polyomino = function (vecArray) {
       smallerPolyomino = that;
       biggerPolyomino = polyomino;
     }
-
     // for each vector in the smaller polyomino
     smallerPolyomino.squares.forEach(function (vector, hash) {
       // if the smaller polyomino's vector is the same as one in the bigger polyomino
       if (biggerPolyomino.squares.has(hash))
         // then they must overlap
-        return true;
+        result = true;
     });
     // otherwise, they must not overlap
-    return false;
+    return result;
   }
 
   /*

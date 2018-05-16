@@ -434,7 +434,7 @@ function Driver() {
     let field = new ps.Polyomino(newFieldVecs);
     // finally, a set of rules that the solver must adhere to
     let rules = {
-      allowReflections: true,
+      allowReflections: false,
       allowRotations: true
     };
     
@@ -442,7 +442,9 @@ function Driver() {
       console.log("OBJECTS PASSED TO SOLVER:");
       console.log("Polyominoes:");
       console.log(polyominoes);
-      console.log(polyominoes + "\n");
+      polyominoes.forEach(function(polyomino) {
+        console.log(polyomino.toString());
+      });
       console.log("Field:");
       console.log(field);
       console.log(field + "\n");

@@ -8,7 +8,8 @@ this.ps = {};
 // debug flags
 ps.flags = {
   DO_TESTS: false,
-  SHOW_LOGS: true
+  SHOW_LOGS: true,
+  SHOW_LOOP_LOGS: false
 };
 
 // CONSTANTS

@@ -21,13 +21,11 @@ ps.Polyexpand = function (polyomino, field, rules) {
 
     // if this Polyexpand should have reflections of this Polyomino, add all the reflections
     if (that.rules.allowReflections) {
-      if (ps.flags.SHOW_LOGS) console.log("All reflections were expanded on this Polyexpand.");
       that.expandReflections();
     }
 
     // if this Polyexpand should have rotations of this Polyomino, add all the rotations
     if (that.rules.allowRotations) {
-      if (ps.flags.SHOW_LOGS) console.log("All rotations were expanded on this Polyexpand.");
       that.expandRotations();
     }
     
