@@ -27,10 +27,17 @@ ps.Constructor = function() {
     Delete a vector from the Constructor's HashMap
   */
   that.delete = function(x,y) {
-    let temp = new ps.Vec2(x,y);
-    that.vectors.delete( temp.hash, temp );
+    that.vectors.delete( ps.hashCoords({x: x, y: y}) );
     that.updateButtons();
-    if(ps.flags.SHOW_LOGS) console.log( temp.toString() + " was deleted from the constructor." );
+    if(ps.flags.SHOW_LOGS) console.log( "<" + x + ", " + y + "> was deleted from the constructor." );
+  }
+  
+  /*
+    Clears the Constructor of all vectors.
+  */
+  that.clear = function() {
+    that.vectors.clear();
+    that.updateButtons();
   }
   
   /*
